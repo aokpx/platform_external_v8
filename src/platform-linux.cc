@@ -557,7 +557,7 @@ void OS::SignalCodeMovingGC() {
 }
 
 
-int OS::StackWalk(Vector<OS::StackFrame> frames) {
+int OS::StackWalk(Vector<OS::StackFrame> frames __attribute__((unused))) {
   // backtrace is a glibc extension.
 #ifdef __GLIBC__
   int frames_size = frames.length();
@@ -1189,7 +1189,8 @@ class SignalSender : public Thread {
     sender->SendProfilingSignal(sampler->platform_data()->vm_tid());
   }
 
-  static void DoRuntimeProfile(Sampler* sampler, void* ignored) {
+  static void DoRuntimeProfile(Sampler* sampler,
+                               void* ignored __attribute__((unused))) {
     if (!sampler->isolate()->IsInitialized()) return;
     sampler->isolate()->runtime_profiler()->NotifyTick();
   }

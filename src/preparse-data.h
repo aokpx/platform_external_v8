@@ -52,8 +52,10 @@ class ParserRecorder {
                            LanguageMode language_mode) = 0;
 
   // Logs a symbol creation of a literal or identifier.
-  virtual void LogAsciiSymbol(int start, Vector<const char> literal) { }
-  virtual void LogUtf16Symbol(int start, Vector<const uc16> literal) { }
+  virtual void LogAsciiSymbol(int start __attribute__((unused)),
+                              Vector<const char> literal __attribute__((unused))) { }
+  virtual void LogUtf16Symbol(int start __attribute__((unused)),
+                              Vector<const uc16> literal __attribute__((unused))) { }
 
   // Logs an error message and marks the log as containing an error.
   // Further logging will be ignored, and ExtractData will return a vector
@@ -148,8 +150,10 @@ class FunctionLoggingParserRecorder : public ParserRecorder {
 class PartialParserRecorder : public FunctionLoggingParserRecorder {
  public:
   PartialParserRecorder() : FunctionLoggingParserRecorder() { }
-  virtual void LogAsciiSymbol(int start, Vector<const char> literal) { }
-  virtual void LogUtf16Symbol(int start, Vector<const uc16> literal) { }
+  virtual void LogAsciiSymbol(int start __attribute__((unused)),
+                              Vector<const char> literal __attribute__((unused))) { }
+  virtual void LogUtf16Symbol(int start __attribute__((unused)),
+                              Vector<const uc16> literal __attribute__((unused))) { }
   virtual ~PartialParserRecorder() { }
   virtual Vector<unsigned> ExtractData();
   virtual int symbol_position() { return 0; }

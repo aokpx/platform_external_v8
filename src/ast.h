@@ -1103,7 +1103,7 @@ class TargetCollector: public AstNode {
   void AddTarget(Label* target);
 
   // Virtual behaviour. TargetCollectors are never part of the AST.
-  virtual void Accept(AstVisitor* v) { UNREACHABLE(); }
+  virtual void Accept(AstVisitor* v __attribute__((unused))) { UNREACHABLE(); }
   virtual TargetCollector* AsTargetCollector() { return this; }
 
   ZoneList<Label*>* targets() { return &targets_; }
@@ -2617,7 +2617,7 @@ class AstNullVisitor BASE_EMBEDDED {
  public:
   // Node visitors.
 #define DEF_VISIT(type) \
-  void Visit##type(type* node) {}
+  void Visit##type(type* node __attribute__((unused))) {}
   AST_NODE_LIST(DEF_VISIT)
 #undef DEF_VISIT
 };

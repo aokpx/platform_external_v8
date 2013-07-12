@@ -135,8 +135,10 @@ class FullCodeGenerator: public AstVisitor {
     virtual Breakable* AsBreakable() { return NULL; }
     virtual Iteration* AsIteration() { return NULL; }
 
-    virtual bool IsContinueTarget(Statement* target) { return false; }
-    virtual bool IsBreakTarget(Statement* target) { return false; }
+    virtual bool IsContinueTarget(
+        Statement* target __attribute__((unused))) { return false; }
+    virtual bool IsBreakTarget(
+        Statement* target __attribute__((unused))) { return false; }
 
     // Notify the statement that we are exiting it via break, continue, or
     // return and give it a chance to generate cleanup code.  Return the
@@ -144,7 +146,8 @@ class FullCodeGenerator: public AstVisitor {
     // *stack_depth the amount to drop the stack and in *context_length the
     // number of context chain links to unwind as we traverse the nesting
     // stack from an exit to its target.
-    virtual NestedStatement* Exit(int* stack_depth, int* context_length) {
+    virtual NestedStatement* Exit(int* stack_depth __attribute__((unused)),
+                                  int* context_length __attribute__((unused))) {
       return previous_;
     }
 
@@ -206,7 +209,8 @@ class FullCodeGenerator: public AstVisitor {
     }
     virtual ~NestedBlock() {}
 
-    virtual NestedStatement* Exit(int* stack_depth, int* context_length) {
+    virtual NestedStatement* Exit(int* stack_depth __attribute__((unused)),
+                                  int* context_length) {
       if (statement()->AsBlock()->block_scope() != NULL) {
         ++(*context_length);
       }
@@ -246,7 +250,8 @@ class FullCodeGenerator: public AstVisitor {
     explicit Finally(FullCodeGenerator* codegen) : NestedStatement(codegen) { }
     virtual ~Finally() {}
 
-    virtual NestedStatement* Exit(int* stack_depth, int* context_length) {
+    virtual NestedStatement* Exit(int* stack_depth,
+                                  int* context_length __attribute__((unused))) {
       *stack_depth += kElementCount;
       return previous_;
     }
@@ -262,7 +267,8 @@ class FullCodeGenerator: public AstVisitor {
     }
     virtual ~ForIn() {}
 
-    virtual NestedStatement* Exit(int* stack_depth, int* context_length) {
+    virtual NestedStatement* Exit(int* stack_depth,
+                                  int* context_length __attribute__((unused))) {
       *stack_depth += kElementCount;
       return previous_;
     }
@@ -277,7 +283,8 @@ class FullCodeGenerator: public AstVisitor {
     }
     virtual ~WithOrCatch() {}
 
-    virtual NestedStatement* Exit(int* stack_depth, int* context_length) {
+    virtual NestedStatement* Exit(int* stack_depth __attribute__((unused)),
+                                  int* context_length) {
       ++(*context_length);
       return previous_;
     }

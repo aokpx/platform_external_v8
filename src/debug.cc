@@ -692,7 +692,8 @@ void Debug::SetUp(bool create_heap_objects) {
 }
 
 
-void Debug::HandleWeakDebugInfo(v8::Persistent<v8::Value> obj, void* data) {
+void Debug::HandleWeakDebugInfo(v8::Persistent<v8::Value> obj __attribute__((unused)),
+                                void* data) {
   Debug* debug = Isolate::Current()->debug();
   DebugInfoListNode* node = reinterpret_cast<DebugInfoListNode*>(data);
   // We need to clear all breakpoints associated with the function to restore
@@ -892,7 +893,7 @@ void Debug::Iterate(ObjectVisitor* v) {
 }
 
 
-Object* Debug::Break(Arguments args) {
+Object* Debug::Break(Arguments args __attribute__((unused))) {
   Heap* heap = isolate_->heap();
   HandleScope scope(isolate_);
   ASSERT(args.length() == 0);
@@ -3145,7 +3146,8 @@ Handle<Object> Debugger::Call(Handle<JSFunction> fun,
 }
 
 
-static void StubMessageHandler2(const v8::Debug::Message& message) {
+static void StubMessageHandler2(
+  const v8::Debug::Message& message __attribute__((unused))) {
   // Simply ignore message.
 }
 
@@ -3554,7 +3556,8 @@ void LockingCommandMessageQueue::Clear() {
 }
 
 
-MessageDispatchHelperThread::MessageDispatchHelperThread(Isolate* isolate)
+MessageDispatchHelperThread::MessageDispatchHelperThread(
+  Isolate* isolate __attribute__((unused)))
     : Thread("v8:MsgDispHelpr"),
       sem_(OS::CreateSemaphore(0)), mutex_(OS::CreateMutex()),
       already_signalled_(false) {

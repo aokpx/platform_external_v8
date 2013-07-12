@@ -35,7 +35,7 @@ namespace internal {
 
 
 bool IncrementalMarking::BaseRecordWrite(HeapObject* obj,
-                                         Object** slot,
+                                         Object** slot __attribute__((unused)),
                                          Object* value) {
   MarkBit value_bit = Marking::MarkBitFrom(HeapObject::cast(value));
   if (Marking::IsWhite(value_bit)) {
@@ -123,7 +123,7 @@ void IncrementalMarking::WhiteToGreyAndPush(HeapObject* obj, MarkBit mark_bit) {
 }
 
 
-void IncrementalMarking::WhiteToGrey(HeapObject* obj, MarkBit mark_bit) {
+void IncrementalMarking::WhiteToGrey(HeapObject* obj __attribute__((unused)), MarkBit mark_bit) {
   Marking::WhiteToGrey(mark_bit);
 }
 

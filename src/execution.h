@@ -232,7 +232,7 @@ class StackGuard {
   StackGuard();
 
   // You should hold the ExecutionAccess lock when calling this method.
-  bool has_pending_interrupts(const ExecutionAccess& lock) {
+  bool has_pending_interrupts(const ExecutionAccess& lock __attribute__((unused))) {
     // Sanity check: We shouldn't be asking about pending interrupts
     // unless we're not postponing them anymore.
     ASSERT(!should_postpone_interrupts(lock));
@@ -240,7 +240,7 @@ class StackGuard {
   }
 
   // You should hold the ExecutionAccess lock when calling this method.
-  bool should_postpone_interrupts(const ExecutionAccess& lock) {
+  bool should_postpone_interrupts(const ExecutionAccess& lock __attribute__((unused))) {
     return thread_local_.postpone_interrupts_nesting_ > 0;
   }
 

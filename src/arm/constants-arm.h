@@ -433,7 +433,7 @@ enum CheckForInexactConversion {
 enum Hint { no_hint };
 
 // Hints are not used on the arm.  Negating is trivial.
-inline Hint NegateHint(Hint ignored) { return no_hint; }
+inline Hint NegateHint(Hint ignored __attribute__((unused))) { return no_hint; }
 
 
 // -----------------------------------------------------------------------------

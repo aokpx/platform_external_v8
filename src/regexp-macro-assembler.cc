@@ -105,7 +105,7 @@ NativeRegExpMacroAssembler::Result NativeRegExpMacroAssembler::Match(
     Handle<Code> regexp_code,
     Handle<String> subject,
     int* offsets_vector,
-    int offsets_vector_length,
+    int offsets_vector_length __attribute__((unused)),
     int previous_index,
     Isolate* isolate) {
 

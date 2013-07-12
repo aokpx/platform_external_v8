@@ -414,7 +414,7 @@ void RuntimeProfiler::UpdateSamplesAfterScavenge() {
 }
 
 
-void RuntimeProfiler::HandleWakeUp(Isolate* isolate) {
+void RuntimeProfiler::HandleWakeUp(Isolate* isolate __attribute__((unused))) {
   // The profiler thread must still be waiting.
   ASSERT(NoBarrier_Load(&state_) >= 0);
   // In IsolateEnteredJS we have already incremented the counter and

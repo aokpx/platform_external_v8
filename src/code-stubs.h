@@ -178,11 +178,11 @@ class CodeStub BASE_EMBEDDED {
   void RecordCodeGeneration(Code* code, MacroAssembler* masm);
 
   // Finish the code object after it has been generated.
-  virtual void FinishCode(Handle<Code> code) { }
+  virtual void FinishCode(Handle<Code> code __attribute__((unused))) { }
 
   // Activate newly generated stub. Is called after
   // registering stub in the stub cache.
-  virtual void Activate(Code* code) { }
+  virtual void Activate(Code* code __attribute__((unused))) { }
 
   // Returns information for computing the number key.
   virtual Major MajorKey() = 0;
@@ -199,10 +199,10 @@ class CodeStub BASE_EMBEDDED {
   // Add the code to a specialized cache, specific to an individual
   // stub type. Please note, this method must add the code object to a
   // roots object, otherwise we will remove the code during GC.
-  virtual void AddToSpecialCache(Handle<Code> new_object) { }
+  virtual void AddToSpecialCache(Handle<Code> new_object __attribute__((unused))) { }
 
   // Find code in a specialized cache, work is delegated to the specific stub.
-  virtual bool FindCodeInSpecialCache(Code** code_out) { return false; }
+  virtual bool FindCodeInSpecialCache(Code** code_out __attribute__((unused))) { return false; }
 
   // If a stub uses a special cache override this.
   virtual bool UseSpecialCache() { return false; }
@@ -280,9 +280,9 @@ class NopRuntimeCallHelper : public RuntimeCallHelper {
  public:
   NopRuntimeCallHelper() {}
 
-  virtual void BeforeCall(MacroAssembler* masm) const {}
+  virtual void BeforeCall(MacroAssembler* masm __attribute__((unused))) const {}
 
-  virtual void AfterCall(MacroAssembler* masm) const {}
+  virtual void AfterCall(MacroAssembler* masm __attribute__((unused))) const {}
 };
 
 

@@ -107,7 +107,8 @@ void MacroAssembler::Jump(Handle<Code> code, RelocInfo::Mode rmode,
 }
 
 
-int MacroAssembler::CallSize(Register target, Condition cond) {
+int MacroAssembler::CallSize(Register target __attribute__((unused)),
+                             Condition cond __attribute__((unused))) {
 #if USE_BLX
   return kInstrSize;
 #else
@@ -179,7 +180,7 @@ void MacroAssembler::Call(Address target,
 
 int MacroAssembler::CallSize(Handle<Code> code,
                              RelocInfo::Mode rmode,
-                             unsigned ast_id,
+                             unsigned ast_id __attribute__((unused)),
                              Condition cond) {
   return CallSize(reinterpret_cast<Address>(code.location()), rmode, cond);
 }
@@ -804,7 +805,7 @@ void MacroAssembler::EnterFrame(StackFrame::Type type) {
 }
 
 
-void MacroAssembler::LeaveFrame(StackFrame::Type type) {
+void MacroAssembler::LeaveFrame(StackFrame::Type type __attribute__((unused))) {
   // r0: preserved
   // r1: preserved
   // r2: preserved
@@ -955,7 +956,7 @@ void MacroAssembler::SetCallKind(Register dst, CallKind call_kind) {
 void MacroAssembler::InvokePrologue(const ParameterCount& expected,
                                     const ParameterCount& actual,
                                     Handle<Code> code_constant,
-                                    Register code_reg,
+                                    Register code_reg __attribute__((unused)),
                                     Label* done,
                                     bool* definitely_mismatches,
                                     InvokeFlag flag,
@@ -1096,7 +1097,7 @@ void MacroAssembler::InvokeCode(Handle<Code> code,
 }
 
 
-void MacroAssembler::InvokeFunction(Register fun,
+void MacroAssembler::InvokeFunction(Register fun __attribute__((unused)),
                                     const ParameterCount& actual,
                                     InvokeFlag flag,
                                     const CallWrapper& call_wrapper,
@@ -2642,7 +2643,7 @@ void MacroAssembler::CallExternalReference(const ExternalReference& ext,
 
 void MacroAssembler::TailCallExternalReference(const ExternalReference& ext,
                                                int num_arguments,
-                                               int result_size) {
+                                               int result_size __attribute__((unused))) {
   // TODO(1236192): Most runtime routines don't need the number of
   // arguments passed in because it is constant. At some point we
   // should remove this need and make the runtime routine entry code
@@ -3195,7 +3196,7 @@ void MacroAssembler::InitializeFieldsWithFiller(Register start_offset,
 
 void MacroAssembler::CountLeadingZeros(Register zeros,   // Answer.
                                        Register source,  // Input.
-                                       Register scratch) {
+                                       Register scratch __attribute__((unused))) {
   ASSERT(!zeros.is(source) || !source.is(scratch));
   ASSERT(!zeros.is(scratch));
   ASSERT(!scratch.is(ip));

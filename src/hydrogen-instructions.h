@@ -733,11 +733,11 @@ class HValue: public ZoneObject {
  protected:
   // This function must be overridden for instructions with flag kUseGVN, to
   // compare the non-Operand parts of the instruction.
-  virtual bool DataEquals(HValue* other) {
+  virtual bool DataEquals(HValue* other __attribute__((unused))) {
     UNREACHABLE();
     return false;
   }
-  virtual void RepresentationChanged(Representation to) { }
+  virtual void RepresentationChanged(Representation to __attribute__((unused))) { }
   virtual Range* InferRange(Zone* zone);
   virtual void DeleteFromGraph() = 0;
   virtual void InternalSetOperandAt(int index, HValue* value) = 0;
@@ -817,7 +817,7 @@ class HInstruction: public HValue {
   HInstruction* previous() const { return previous_; }
 
   virtual void PrintTo(StringStream* stream);
-  virtual void PrintDataTo(StringStream* stream) { }
+  virtual void PrintDataTo(StringStream* stream __attribute__((unused))) { }
 
   bool IsLinked() const { return block() != NULL; }
   void Unlink();
@@ -936,7 +936,7 @@ class HTemplateControlInstruction: public HControlInstruction {
 
 class HBlockEntry: public HTemplateInstruction<0> {
  public:
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -949,7 +949,7 @@ class HBlockEntry: public HTemplateInstruction<0> {
 // HSoftDeoptimize does not end a basic block as opposed to HDeoptimize.
 class HSoftDeoptimize: public HTemplateInstruction<0> {
  public:
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -961,7 +961,7 @@ class HDeoptimize: public HControlInstruction {
  public:
   explicit HDeoptimize(int environment_length) : values_(environment_length) { }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -970,11 +970,12 @@ class HDeoptimize: public HControlInstruction {
   virtual void PrintDataTo(StringStream* stream);
 
   virtual int SuccessorCount() { return 0; }
-  virtual HBasicBlock* SuccessorAt(int i) {
+  virtual HBasicBlock* SuccessorAt(int i __attribute__((unused))) {
     UNREACHABLE();
     return NULL;
   }
-  virtual void SetSuccessorAt(int i, HBasicBlock* block) {
+  virtual void SetSuccessorAt(int i __attribute__((unused)),
+                              HBasicBlock* block __attribute__((unused))) {
     UNREACHABLE();
   }
 
@@ -1006,7 +1007,7 @@ class HGoto: public HTemplateControlInstruction<1, 0> {
     SetSuccessorAt(0, target);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -1046,7 +1047,7 @@ class HBranch: public HUnaryControlInstruction {
       : HUnaryControlInstruction(value, NULL, NULL) { }
 
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -1078,7 +1079,7 @@ class HCompareMap: public HUnaryControlInstruction {
 
   Handle<Map> map() const { return map_; }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -1095,7 +1096,7 @@ class HReturn: public HTemplateControlInstruction<0, 1> {
     SetOperandAt(0, value);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -1109,7 +1110,7 @@ class HReturn: public HTemplateControlInstruction<0, 1> {
 
 class HAbnormalExit: public HTemplateControlInstruction<0, 0> {
  public:
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -1140,7 +1141,7 @@ class HThrow: public HTemplateInstruction<2> {
     SetAllSideEffects();
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -1155,7 +1156,7 @@ class HUseConst: public HUnaryOperation {
  public:
   explicit HUseConst(HValue* old_value) : HUnaryOperation(old_value) { }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -1174,7 +1175,7 @@ class HForceRepresentation: public HTemplateInstruction<1> {
 
   virtual HValue* EnsureAndPropagateNotMinusZero(BitVector* visited);
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return representation();  // Same as the output representation.
   }
 
@@ -1210,7 +1211,7 @@ class HChange: public HUnaryOperation {
   bool deoptimize_on_minus_zero() const {
     return CheckFlag(kBailoutOnMinusZero);
   }
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return from();
   }
 
@@ -1221,7 +1222,7 @@ class HChange: public HUnaryOperation {
   DECLARE_CONCRETE_INSTRUCTION(Change)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -1233,14 +1234,14 @@ class HClampToUint8: public HUnaryOperation {
     SetFlag(kUseGVN);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
   DECLARE_CONCRETE_INSTRUCTION(ClampToUint8)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -1280,7 +1281,7 @@ class HSimulate: public HInstruction {
   virtual int OperandCount() { return values_.length(); }
   virtual HValue* OperandAt(int index) { return values_[index]; }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -1325,7 +1326,7 @@ class HStackCheck: public HTemplateInstruction<1> {
 
   HValue* context() { return OperandAt(0); }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -1371,7 +1372,7 @@ class HEnterInlined: public HTemplateInstruction<0> {
   CallKind call_kind() const { return call_kind_; }
   bool is_construct() const { return is_construct_; }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -1393,7 +1394,7 @@ class HLeaveInlined: public HTemplateInstruction<0> {
  public:
   HLeaveInlined() {}
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -1407,7 +1408,7 @@ class HPushArgument: public HUnaryOperation {
     set_representation(Representation::Tagged());
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -1424,7 +1425,7 @@ class HThisFunction: public HTemplateInstruction<0> {
     SetFlag(kUseGVN);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -1450,14 +1451,14 @@ class HContext: public HTemplateInstruction<0> {
     SetFlag(kUseGVN);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
   DECLARE_CONCRETE_INSTRUCTION(Context)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -1470,12 +1471,12 @@ class HOuterContext: public HUnaryOperation {
 
   DECLARE_CONCRETE_INSTRUCTION(OuterContext);
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -1497,7 +1498,7 @@ class HDeclareGlobals: public HUnaryOperation {
 
   DECLARE_CONCRETE_INSTRUCTION(DeclareGlobals)
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
  private:
@@ -1515,12 +1516,12 @@ class HGlobalObject: public HUnaryOperation {
 
   DECLARE_CONCRETE_INSTRUCTION(GlobalObject)
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -1534,12 +1535,12 @@ class HGlobalReceiver: public HUnaryOperation {
 
   DECLARE_CONCRETE_INSTRUCTION(GlobalReceiver)
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -1570,7 +1571,7 @@ class HUnaryCall: public HCall<1> {
     SetOperandAt(0, value);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -1590,7 +1591,7 @@ class HBinaryCall: public HCall<2> {
 
   virtual void PrintDataTo(StringStream* stream);
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -1605,7 +1606,7 @@ class HInvokeFunction: public HBinaryCall {
       : HBinaryCall(context, function, argument_count) {
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -1630,7 +1631,7 @@ class HCallConstantFunction: public HCall<0> {
 
   virtual void PrintDataTo(StringStream* stream);
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -1647,7 +1648,7 @@ class HCallKeyed: public HBinaryCall {
       : HBinaryCall(context, key, argument_count) {
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -1671,7 +1672,7 @@ class HCallNamed: public HUnaryCall {
 
   DECLARE_CONCRETE_INSTRUCTION(CallNamed)
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -1689,7 +1690,7 @@ class HCallFunction: public HBinaryCall {
   HValue* context() { return first(); }
   HValue* function() { return second(); }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -1708,7 +1709,7 @@ class HCallGlobal: public HUnaryCall {
   HValue* context() { return value(); }
   Handle<String> name() const { return name_; }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -1728,7 +1729,7 @@ class HCallKnownGlobal: public HCall<0> {
 
   Handle<JSFunction> target() const { return target_; }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -1745,7 +1746,7 @@ class HCallNew: public HBinaryCall {
       : HBinaryCall(context, constructor, argument_count) {
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -1772,7 +1773,7 @@ class HCallRuntime: public HCall<1> {
   const Runtime::Function* function() const { return c_function_; }
   Handle<String> name() const { return name_; }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -1798,7 +1799,7 @@ class HJSArrayLength: public HTemplateInstruction<2> {
     SetGVNFlag(kDependsOnMaps);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -1810,7 +1811,7 @@ class HJSArrayLength: public HTemplateInstruction<2> {
   DECLARE_CONCRETE_INSTRUCTION(JSArrayLength)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -1822,14 +1823,14 @@ class HFixedArrayBaseLength: public HUnaryOperation {
     SetGVNFlag(kDependsOnArrayLengths);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
   DECLARE_CONCRETE_INSTRUCTION(FixedArrayBaseLength)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -1841,14 +1842,14 @@ class HElementsKind: public HUnaryOperation {
     SetGVNFlag(kDependsOnElementsKind);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
   DECLARE_CONCRETE_INSTRUCTION(ElementsKind)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -1860,7 +1861,7 @@ class HBitNot: public HUnaryOperation {
     SetFlag(kTruncatingToInt32);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Integer32();
   }
   virtual HType CalculateInferredType();
@@ -1868,7 +1869,7 @@ class HBitNot: public HUnaryOperation {
   DECLARE_CONCRETE_INSTRUCTION(BitNot)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -1969,14 +1970,14 @@ class HLoadElements: public HUnaryOperation {
     SetGVNFlag(kDependsOnElementsPointer);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
   DECLARE_CONCRETE_INSTRUCTION(LoadElements)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -1992,14 +1993,14 @@ class HLoadExternalArrayPointer: public HUnaryOperation {
     SetFlag(kUseGVN);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
   DECLARE_CONCRETE_INSTRUCTION(LoadExternalArrayPointer)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -2028,7 +2029,7 @@ class HCheckMap: public HTemplateInstruction<2> {
         map->LookupElementsTransitionMap(FAST_ELEMENTS, NULL) != NULL;
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
   virtual void PrintDataTo(StringStream* stream);
@@ -2065,7 +2066,7 @@ class HCheckFunction: public HUnaryOperation {
     SetFlag(kUseGVN);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
   virtual void PrintDataTo(StringStream* stream);
@@ -2107,7 +2108,7 @@ class HCheckInstanceType: public HUnaryOperation {
 
   virtual void PrintDataTo(StringStream* stream);
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -2156,7 +2157,7 @@ class HCheckNonSmi: public HUnaryOperation {
     SetFlag(kUseGVN);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -2181,7 +2182,7 @@ class HCheckNonSmi: public HUnaryOperation {
   DECLARE_CONCRETE_INSTRUCTION(CheckNonSmi)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -2202,7 +2203,7 @@ class HCheckPrototypeMaps: public HTemplateInstruction<0> {
 
   DECLARE_CONCRETE_INSTRUCTION(CheckPrototypeMaps)
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -2233,7 +2234,7 @@ class HCheckSmi: public HUnaryOperation {
     SetFlag(kUseGVN);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
   virtual HType CalculateInferredType();
@@ -2245,7 +2246,7 @@ class HCheckSmi: public HUnaryOperation {
   DECLARE_CONCRETE_INSTRUCTION(CheckSmi)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -2269,7 +2270,7 @@ class HPhi: public HValue {
   virtual Representation InferredRepresentation();
 
   virtual Range* InferRange(Zone* zone);
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return representation();
   }
   virtual HType CalculateInferredType();
@@ -2361,7 +2362,7 @@ class HArgumentsObject: public HTemplateInstruction<0> {
     SetFlag(kIsArguments);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -2390,7 +2391,7 @@ class HConstant: public HTemplateInstruction<0> {
     return false;
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -2504,7 +2505,7 @@ class HWrapReceiver: public HTemplateInstruction<2> {
     SetOperandAt(1, function);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -2558,12 +2559,12 @@ class HArgumentsElements: public HTemplateInstruction<0> {
 
   DECLARE_CONCRETE_INSTRUCTION(ArgumentsElements)
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -2574,14 +2575,14 @@ class HArgumentsLength: public HUnaryOperation {
     SetFlag(kUseGVN);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
   DECLARE_CONCRETE_INSTRUCTION(ArgumentsLength)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -2610,7 +2611,7 @@ class HAccessArgumentsAt: public HTemplateInstruction<3> {
 
   DECLARE_CONCRETE_INSTRUCTION(AccessArgumentsAt)
 
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -2623,7 +2624,7 @@ class HBoundsCheck: public HTemplateInstruction<2> {
     SetFlag(kUseGVN);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Integer32();
   }
 
@@ -2635,7 +2636,7 @@ class HBoundsCheck: public HTemplateInstruction<2> {
   DECLARE_CONCRETE_INSTRUCTION(BoundsCheck)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -2713,7 +2714,7 @@ class HCompareGeneric: public HBinaryOperation {
     SetAllSideEffects();
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -2751,7 +2752,7 @@ class HCompareIDAndBranch: public HTemplateControlInstruction<2, 2> {
     return input_representation_;
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return input_representation_;
   }
   virtual void PrintDataTo(StringStream* stream);
@@ -2776,7 +2777,7 @@ class HCompareObjectEqAndBranch: public HTemplateControlInstruction<2, 2> {
 
   virtual void PrintDataTo(StringStream* stream);
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -2795,7 +2796,7 @@ class HCompareConstantEqAndBranch: public HUnaryControlInstruction {
   HValue* left() { return value(); }
   int right() const { return right_; }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Integer32();
   }
 
@@ -2817,7 +2818,7 @@ class HIsNilAndBranch: public HUnaryControlInstruction {
 
   virtual void PrintDataTo(StringStream* stream);
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -2834,7 +2835,7 @@ class HIsObjectAndBranch: public HUnaryControlInstruction {
   explicit HIsObjectAndBranch(HValue* value)
     : HUnaryControlInstruction(value, NULL, NULL) { }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -2846,7 +2847,7 @@ class HIsStringAndBranch: public HUnaryControlInstruction {
   explicit HIsStringAndBranch(HValue* value)
     : HUnaryControlInstruction(value, NULL, NULL) { }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -2861,12 +2862,12 @@ class HIsSmiAndBranch: public HUnaryControlInstruction {
 
   DECLARE_CONCRETE_INSTRUCTION(IsSmiAndBranch)
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -2875,7 +2876,7 @@ class HIsUndetectableAndBranch: public HUnaryControlInstruction {
   explicit HIsUndetectableAndBranch(HValue* value)
       : HUnaryControlInstruction(value, NULL, NULL) { }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -2904,7 +2905,7 @@ class HStringCompareAndBranch: public HTemplateControlInstruction<2, 3> {
 
   virtual void PrintDataTo(StringStream* stream);
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -2921,7 +2922,7 @@ class HStringCompareAndBranch: public HTemplateControlInstruction<2, 3> {
 
 class HIsConstructCallAndBranch: public HTemplateControlInstruction<2, 0> {
  public:
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -2943,7 +2944,7 @@ class HHasInstanceTypeAndBranch: public HUnaryControlInstruction {
 
   virtual void PrintDataTo(StringStream* stream);
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -2960,7 +2961,7 @@ class HHasCachedArrayIndexAndBranch: public HUnaryControlInstruction {
   explicit HHasCachedArrayIndexAndBranch(HValue* value)
       : HUnaryControlInstruction(value, NULL, NULL) { }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -2975,14 +2976,14 @@ class HGetCachedArrayIndex: public HUnaryOperation {
     SetFlag(kUseGVN);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
   DECLARE_CONCRETE_INSTRUCTION(GetCachedArrayIndex)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -2994,7 +2995,7 @@ class HClassOfTestAndBranch: public HUnaryControlInstruction {
 
   DECLARE_CONCRETE_INSTRUCTION(ClassOfTestAndBranch)
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -3018,7 +3019,7 @@ class HTypeofIsAndBranch: public HUnaryControlInstruction {
 
   DECLARE_CONCRETE_INSTRUCTION(TypeofIsAndBranch)
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -3035,7 +3036,7 @@ class HInstanceOf: public HBinaryOperation {
     SetAllSideEffects();
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -3063,7 +3064,7 @@ class HInstanceOfKnownGlobal: public HTemplateInstruction<2> {
   HValue* left() { return OperandAt(1); }
   Handle<JSFunction> function() { return function_; }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -3097,7 +3098,7 @@ class HPower: public HTemplateInstruction<2> {
   DECLARE_CONCRETE_INSTRUCTION(Power)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -3110,7 +3111,7 @@ class HRandom: public HTemplateInstruction<1> {
 
   HValue* global_object() { return OperandAt(0); }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -3145,7 +3146,7 @@ class HAdd: public HArithmeticBinaryOperation {
   DECLARE_CONCRETE_INSTRUCTION(Add)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 
   virtual Range* InferRange(Zone* zone);
 };
@@ -3170,7 +3171,7 @@ class HSub: public HArithmeticBinaryOperation {
   DECLARE_CONCRETE_INSTRUCTION(Sub)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 
   virtual Range* InferRange(Zone* zone);
 };
@@ -3198,7 +3199,7 @@ class HMul: public HArithmeticBinaryOperation {
   DECLARE_CONCRETE_INSTRUCTION(Mul)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 
   virtual Range* InferRange(Zone* zone);
 };
@@ -3231,7 +3232,7 @@ class HMod: public HArithmeticBinaryOperation {
   DECLARE_CONCRETE_INSTRUCTION(Mod)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 
   virtual Range* InferRange(Zone* zone);
 };
@@ -3255,7 +3256,7 @@ class HDiv: public HArithmeticBinaryOperation {
   DECLARE_CONCRETE_INSTRUCTION(Div)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 
   virtual Range* InferRange(Zone* zone);
 };
@@ -3311,7 +3312,7 @@ class HShl: public HBitwiseBinaryOperation {
   DECLARE_CONCRETE_INSTRUCTION(Shl)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -3330,7 +3331,7 @@ class HShr: public HBitwiseBinaryOperation {
   DECLARE_CONCRETE_INSTRUCTION(Shr)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -3349,7 +3350,7 @@ class HSar: public HBitwiseBinaryOperation {
   DECLARE_CONCRETE_INSTRUCTION(Sar)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -3361,7 +3362,7 @@ class HOsrEntry: public HTemplateInstruction<0> {
 
   int ast_id() const { return ast_id_; }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -3382,7 +3383,7 @@ class HParameter: public HTemplateInstruction<0> {
 
   virtual void PrintDataTo(StringStream* stream);
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -3414,7 +3415,7 @@ class HCallStub: public HUnaryCall {
 
   virtual void PrintDataTo(StringStream* stream);
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -3433,7 +3434,7 @@ class HUnknownOSRValue: public HTemplateInstruction<0> {
     set_representation(Representation::Tagged());
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -3471,7 +3472,7 @@ class HLoadGlobalCell: public HTemplateInstruction<0> {
     return reinterpret_cast<intptr_t>(*cell_);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::None();
   }
 
@@ -3510,7 +3511,7 @@ class HLoadGlobalGeneric: public HTemplateInstruction<2> {
 
   virtual void PrintDataTo(StringStream* stream);
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -3548,7 +3549,7 @@ class HStoreGlobalCell: public HUnaryOperation {
     return StoringValueNeedsWriteBarrier(value());
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
   virtual void PrintDataTo(StringStream* stream);
@@ -3585,7 +3586,7 @@ class HStoreGlobalGeneric: public HTemplateInstruction<3> {
 
   virtual void PrintDataTo(StringStream* stream);
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -3642,7 +3643,7 @@ class HLoadContextSlot: public HUnaryOperation {
     return mode_ != kNoCheck;
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -3701,7 +3702,7 @@ class HStoreContextSlot: public HTemplateInstruction<2> {
     return mode_ != kNoCheck;
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -3735,7 +3736,7 @@ class HLoadNamedField: public HUnaryOperation {
   bool is_in_object() const { return is_in_object_; }
   int offset() const { return offset_; }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
   virtual void PrintDataTo(StringStream* stream);
@@ -3767,7 +3768,7 @@ class HLoadNamedFieldPolymorphic: public HTemplateInstruction<2> {
   Handle<String> name() { return name_; }
   bool need_generic() { return need_generic_; }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -3802,7 +3803,7 @@ class HLoadNamedGeneric: public HTemplateInstruction<2> {
   HValue* object() { return OperandAt(1); }
   Handle<Object> name() const { return name_; }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -3826,14 +3827,14 @@ class HLoadFunctionPrototype: public HUnaryOperation {
 
   HValue* function() { return OperandAt(0); }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
   DECLARE_CONCRETE_INSTRUCTION(LoadFunctionPrototype)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -3905,7 +3906,7 @@ class HLoadKeyedFastDoubleElement: public HTemplateInstruction<2> {
   DECLARE_CONCRETE_INSTRUCTION(LoadKeyedFastDoubleElement)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -3976,7 +3977,7 @@ class HLoadKeyedGeneric: public HTemplateInstruction<3> {
 
   virtual void PrintDataTo(StringStream* stream);
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -4007,7 +4008,7 @@ class HStoreNamedField: public HTemplateInstruction<2> {
 
   DECLARE_CONCRETE_INSTRUCTION(StoreNamedField)
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
   virtual void PrintDataTo(StringStream* stream);
@@ -4056,7 +4057,7 @@ class HStoreNamedGeneric: public HTemplateInstruction<3> {
 
   virtual void PrintDataTo(StringStream* stream);
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -4208,7 +4209,7 @@ class HStoreKeyedGeneric: public HTemplateInstruction<4> {
   HValue* context() { return OperandAt(3); }
   StrictModeFlag strict_mode_flag() { return strict_mode_flag_; }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -4235,7 +4236,7 @@ class HTransitionElementsKind: public HTemplateInstruction<1> {
     set_representation(Representation::Tagged());
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -4269,7 +4270,7 @@ class HStringAdd: public HBinaryOperation {
     SetGVNFlag(kDependsOnMaps);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -4280,7 +4281,7 @@ class HStringAdd: public HBinaryOperation {
   DECLARE_CONCRETE_INSTRUCTION(StringAdd)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 };
 
 
@@ -4309,7 +4310,7 @@ class HStringCharCodeAt: public HTemplateInstruction<3> {
   DECLARE_CONCRETE_INSTRUCTION(StringCharCodeAt)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 
   virtual Range* InferRange(Zone* zone) {
     return new(zone) Range(0, String::kMaxUtf16CodeUnit);
@@ -4336,7 +4337,7 @@ class HStringCharFromCode: public HTemplateInstruction<2> {
   HValue* context() { return OperandAt(0); }
   HValue* value() { return OperandAt(1); }
 
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 
   DECLARE_CONCRETE_INSTRUCTION(StringCharFromCode)
 };
@@ -4350,7 +4351,7 @@ class HStringLength: public HUnaryOperation {
     SetGVNFlag(kDependsOnMaps);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -4362,7 +4363,7 @@ class HStringLength: public HUnaryOperation {
   DECLARE_CONCRETE_INSTRUCTION(StringLength)
 
  protected:
-  virtual bool DataEquals(HValue* other) { return true; }
+  virtual bool DataEquals(HValue* other __attribute__((unused))) { return true; }
 
   virtual Range* InferRange(Zone* zone) {
     return new(zone) Range(0, String::kMaxLength);
@@ -4381,7 +4382,7 @@ class HAllocateObject: public HTemplateInstruction<1> {
   HValue* context() { return OperandAt(0); }
   Handle<JSFunction> constructor() { return constructor_; }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
   virtual HType CalculateInferredType();
@@ -4432,7 +4433,7 @@ class HFastLiteral: public HMaterializedLiteral<1> {
   Handle<JSObject> boilerplate() const { return boilerplate_; }
   int total_size() const { return total_size_; }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
   virtual HType CalculateInferredType();
@@ -4470,7 +4471,7 @@ class HArrayLiteral: public HMaterializedLiteral<1> {
 
   bool IsCopyOnWrite() const;
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
   virtual HType CalculateInferredType();
@@ -4505,7 +4506,7 @@ class HObjectLiteral: public HMaterializedLiteral<1> {
   bool fast_elements() const { return fast_elements_; }
   bool has_function() const { return has_function_; }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
   virtual HType CalculateInferredType();
@@ -4536,7 +4537,7 @@ class HRegExpLiteral: public HMaterializedLiteral<1> {
   Handle<String> pattern() { return pattern_; }
   Handle<String> flags() { return flags_; }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
   virtual HType CalculateInferredType();
@@ -4561,7 +4562,7 @@ class HFunctionLiteral: public HTemplateInstruction<1> {
 
   HValue* context() { return OperandAt(0); }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
   virtual HType CalculateInferredType();
@@ -4591,7 +4592,7 @@ class HTypeof: public HTemplateInstruction<2> {
   virtual HValue* Canonicalize();
   virtual void PrintDataTo(StringStream* stream);
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -4609,7 +4610,7 @@ class HToFastProperties: public HUnaryOperation {
     set_representation(Representation::Tagged());
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -4623,7 +4624,7 @@ class HValueOf: public HUnaryOperation {
     set_representation(Representation::Tagged());
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -4640,7 +4641,7 @@ class HDateField: public HUnaryOperation {
 
   Smi* index() const { return index_; }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -4659,7 +4660,7 @@ class HDeleteProperty: public HBinaryOperation {
     SetAllSideEffects();
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -4686,7 +4687,7 @@ class HIn: public HTemplateInstruction<3> {
   HValue* key() { return OperandAt(1); }
   HValue* object() { return OperandAt(2); }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -4712,7 +4713,7 @@ class HCheckMapValue: public HTemplateInstruction<2> {
     SetGVNFlag(kDependsOnElementsKind);
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -4728,7 +4729,7 @@ class HCheckMapValue: public HTemplateInstruction<2> {
   DECLARE_CONCRETE_INSTRUCTION(CheckMapValue)
 
  protected:
-  virtual bool DataEquals(HValue* other) {
+  virtual bool DataEquals(HValue* other __attribute__((unused))) {
     return true;
   }
 };
@@ -4744,7 +4745,7 @@ class HForInPrepareMap : public HTemplateInstruction<2> {
     SetAllSideEffects();
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -4771,7 +4772,7 @@ class HForInCacheArray : public HTemplateInstruction<2> {
     set_representation(Representation::Tagged());
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 
@@ -4810,7 +4811,7 @@ class HLoadFieldByIndex : public HTemplateInstruction<2> {
     set_representation(Representation::Tagged());
   }
 
-  virtual Representation RequiredInputRepresentation(int index) {
+  virtual Representation RequiredInputRepresentation(int index __attribute__((unused))) {
     return Representation::Tagged();
   }
 

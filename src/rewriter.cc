@@ -191,12 +191,14 @@ void Processor::VisitSwitchStatement(SwitchStatement* node) {
 }
 
 
-void Processor::VisitContinueStatement(ContinueStatement* node) {
+void Processor::VisitContinueStatement(
+    ContinueStatement* node __attribute__((unused))) {
   is_set_ = false;
 }
 
 
-void Processor::VisitBreakStatement(BreakStatement* node) {
+void Processor::VisitBreakStatement(
+    BreakStatement* node __attribute__((unused))) {
   is_set_ = false;
 }
 
@@ -209,23 +211,36 @@ void Processor::VisitWithStatement(WithStatement* node) {
 
 
 // Do nothing:
-void Processor::VisitVariableDeclaration(VariableDeclaration* node) {}
-void Processor::VisitFunctionDeclaration(FunctionDeclaration* node) {}
-void Processor::VisitModuleDeclaration(ModuleDeclaration* node) {}
-void Processor::VisitImportDeclaration(ImportDeclaration* node) {}
-void Processor::VisitExportDeclaration(ExportDeclaration* node) {}
-void Processor::VisitModuleLiteral(ModuleLiteral* node) {}
-void Processor::VisitModuleVariable(ModuleVariable* node) {}
-void Processor::VisitModulePath(ModulePath* node) {}
-void Processor::VisitModuleUrl(ModuleUrl* node) {}
-void Processor::VisitEmptyStatement(EmptyStatement* node) {}
-void Processor::VisitReturnStatement(ReturnStatement* node) {}
-void Processor::VisitDebuggerStatement(DebuggerStatement* node) {}
+void Processor::VisitVariableDeclaration(
+    VariableDeclaration* node __attribute__((unused))) {}
+void Processor::VisitFunctionDeclaration(
+    FunctionDeclaration* node __attribute__((unused))) {}
+void Processor::VisitModuleDeclaration(
+    ModuleDeclaration* node __attribute__((unused))) {}
+void Processor::VisitImportDeclaration(
+    ImportDeclaration* node __attribute__((unused))) {}
+void Processor::VisitExportDeclaration(
+    ExportDeclaration* node __attribute__((unused))) {}
+void Processor::VisitModuleLiteral(
+    ModuleLiteral* node __attribute__((unused))) {}
+void Processor::VisitModuleVariable(
+    ModuleVariable* node __attribute__((unused))) {}
+void Processor::VisitModulePath(
+    ModulePath* node __attribute__((unused))) {}
+void Processor::VisitModuleUrl(
+    ModuleUrl* node __attribute__((unused))) {}
+void Processor::VisitEmptyStatement(
+    EmptyStatement* node __attribute__((unused))) {}
+void Processor::VisitReturnStatement(
+    ReturnStatement* node __attribute__((unused))) {}
+void Processor::VisitDebuggerStatement(
+    DebuggerStatement* node __attribute__((unused))) {}
 
 
 // Expressions are never visited yet.
 #define DEF_VISIT(type)                                         \
-  void Processor::Visit##type(type* expr) { UNREACHABLE(); }
+  void Processor::Visit##type(                                  \
+      type* expr __attribute__((unused))) { UNREACHABLE(); }
 EXPRESSION_NODE_LIST(DEF_VISIT)
 #undef DEF_VISIT
 

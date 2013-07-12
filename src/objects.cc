@@ -2634,8 +2634,8 @@ bool JSProxy::HasPropertyWithHandler(String* name_raw) {
 MUST_USE_RESULT MaybeObject* JSProxy::SetPropertyWithHandler(
     String* name_raw,
     Object* value_raw,
-    PropertyAttributes attributes,
-    StrictModeFlag strict_mode) {
+    PropertyAttributes attributes __attribute__((unused)),
+    StrictModeFlag strict_mode __attribute__((unused))) {
   Isolate* isolate = GetIsolate();
   HandleScope scope(isolate);
   Handle<Object> receiver(this);
@@ -2653,7 +2653,7 @@ MUST_USE_RESULT MaybeObject* JSProxy::SetPropertyWithHandler(
 MUST_USE_RESULT MaybeObject* JSProxy::SetPropertyWithHandlerIfDefiningSetter(
     String* name_raw,
     Object* value_raw,
-    PropertyAttributes attributes,
+    PropertyAttributes attributes __attribute__((unused)),
     StrictModeFlag strict_mode,
     bool* found) {
   *found = true;  // except where defined otherwise...
@@ -3569,7 +3569,8 @@ Smi* JSReceiver::GenerateIdentityHash() {
 }
 
 
-MaybeObject* JSObject::SetIdentityHash(Object* hash, CreationFlag flag) {
+MaybeObject* JSObject::SetIdentityHash(Object* hash,
+                                       CreationFlag flag __attribute__((unused))) {
   MaybeObject* maybe = SetHiddenProperty(GetHeap()->identity_hash_symbol(),
                                          hash);
   if (maybe->IsFailure()) return maybe;
@@ -5252,7 +5253,8 @@ int CodeCache::GetIndex(Object* name, Code* code) {
 }
 
 
-void CodeCache::RemoveByIndex(Object* name, Code* code, int index) {
+void CodeCache::RemoveByIndex(Object* name __attribute__((unused)),
+                              Code* code, int index) {
   if (code->type() == NORMAL) {
     ASSERT(!normal_type_cache()->IsUndefined());
     CodeCacheHashTable* cache = CodeCacheHashTable::cast(normal_type_cache());
@@ -5834,7 +5836,8 @@ MaybeObject* DescriptorArray::RemoveTransitions() {
 }
 
 
-void DescriptorArray::SortUnchecked(const WhitenessWitness& witness) {
+void DescriptorArray::SortUnchecked(
+    const WhitenessWitness& witness __attribute__((unused))) {
   // In-place heap sort.
   int len = number_of_descriptors();
 

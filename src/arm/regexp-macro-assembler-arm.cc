@@ -1244,7 +1244,7 @@ int RegExpMacroAssemblerARM::GetBacktrackConstantPoolEntry() {
 
 void RegExpMacroAssemblerARM::CallCFunctionUsingStub(
     ExternalReference function,
-    int num_arguments) {
+    int num_arguments __attribute__((unused))) {
   // Must pass all arguments in registers. The stub pushes on the stack.
   ASSERT(num_arguments <= 4);
   __ mov(code_pointer(), Operand(function));

@@ -58,7 +58,7 @@ void StackGuard::set_interrupt_limits(const ExecutionAccess& lock) {
 }
 
 
-void StackGuard::reset_limits(const ExecutionAccess& lock) {
+void StackGuard::reset_limits(const ExecutionAccess& lock __attribute__((unused))) {
   ASSERT(isolate_ != NULL);
   thread_local_.jslimit_ = thread_local_.real_jslimit_;
   thread_local_.climit_ = thread_local_.real_climit_;
@@ -558,13 +558,15 @@ bool StackGuard::ThreadLocal::Initialize(Isolate* isolate) {
 }
 
 
-void StackGuard::ClearThread(const ExecutionAccess& lock) {
+void StackGuard::ClearThread(
+  const ExecutionAccess& lock __attribute__((unused))) {
   thread_local_.Clear();
   isolate_->heap()->SetStackLimits();
 }
 
 
-void StackGuard::InitThread(const ExecutionAccess& lock) {
+void StackGuard::InitThread(
+  const ExecutionAccess& lock __attribute__((unused))) {
   if (thread_local_.Initialize(isolate_)) isolate_->heap()->SetStackLimits();
   Isolate::PerIsolateThreadData* per_thread =
       isolate_->FindOrAllocatePerThreadDataForThisThread();

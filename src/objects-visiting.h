@@ -289,11 +289,13 @@ class StaticNewSpaceVisitor : public StaticVisitorBase {
   }
 
  private:
-  static inline int VisitByteArray(Map* map, HeapObject* object) {
+  static inline int VisitByteArray(Map* map __attribute__((unused)),
+  HeapObject* object) {
     return reinterpret_cast<ByteArray*>(object)->ByteArraySize();
   }
 
-  static inline int VisitFixedDoubleArray(Map* map, HeapObject* object) {
+  static inline int VisitFixedDoubleArray(Map* map __attribute__((unused)),
+  HeapObject* object) {
     int length = reinterpret_cast<FixedDoubleArray*>(object)->length();
     return FixedDoubleArray::SizeFor(length);
   }
@@ -312,18 +314,21 @@ class StaticNewSpaceVisitor : public StaticVisitorBase {
         SeqTwoByteStringSize(map->instance_type());
   }
 
-  static inline int VisitFreeSpace(Map* map, HeapObject* object) {
+  static inline int VisitFreeSpace(Map* map __attribute__((unused)),
+  HeapObject* object) {
     return FreeSpace::cast(object)->Size();
   }
 
   class DataObjectVisitor {
    public:
     template<int object_size>
-    static inline int VisitSpecialized(Map* map, HeapObject* object) {
+    static inline int VisitSpecialized(Map* map __attribute__((unused)),
+                                       HeapObject* object __attribute__((unused))) {
       return object_size;
     }
 
-    static inline int Visit(Map* map, HeapObject* object) {
+    static inline int Visit(Map* map,
+      HeapObject* object __attribute__((unused))) {
       return map->instance_size();
     }
   };

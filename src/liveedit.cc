@@ -552,10 +552,10 @@ class TokenizingLineArrayCompareOutput : public SubrangableOutput {
       array_writer_.WriteChunk(char_pos1, char_pos2, char_len1, char_len2);
     }
   }
-  void SetSubrange1(int offset, int len) {
+  void SetSubrange1(int offset, int len __attribute__((unused))) {
     subrange_offset1_ = offset;
   }
-  void SetSubrange2(int offset, int len) {
+  void SetSubrange2(int offset, int len __attribute__((unused))) {
     subrange_offset2_ = offset;
   }
 
@@ -1044,7 +1044,7 @@ class DependentFunctionsDeoptimizingVisitor : public OptimizedFunctionVisitor {
       SharedFunctionInfo* function_info)
       : function_info_(function_info) {}
 
-  virtual void EnterContext(Context* context) {
+  virtual void EnterContext(Context* context __attribute__((unused))) {
   }
 
   virtual void VisitFunction(JSFunction* function) {
@@ -1054,7 +1054,7 @@ class DependentFunctionsDeoptimizingVisitor : public OptimizedFunctionVisitor {
     }
   }
 
-  virtual void LeaveContext(Context* context) {
+  virtual void LeaveContext(Context* context __attribute__((unused))) {
   }
 
  private:

@@ -118,7 +118,7 @@ CompleteParserRecorder::CompleteParserRecorder()
 }
 
 
-void CompleteParserRecorder::LogSymbol(int start,
+void CompleteParserRecorder::LogSymbol(int start __attribute__((unused)),
                                        int hash,
                                        bool is_ascii,
                                        Vector<const byte> literal_bytes) {

@@ -344,11 +344,12 @@ class Deserializer: public SerializerDeserializer {
  private:
   virtual void VisitPointers(Object** start, Object** end);
 
-  virtual void VisitExternalReferences(Address* start, Address* end) {
+  virtual void VisitExternalReferences(
+    Address* start __attribute__((unused)), Address* end __attribute__((unused))) {
     UNREACHABLE();
   }
 
-  virtual void VisitRuntimeEntry(RelocInfo* rinfo) {
+  virtual void VisitRuntimeEntry(RelocInfo* rinfo __attribute__((unused))) {
     UNREACHABLE();
   }
 
@@ -519,7 +520,7 @@ class Serializer : public SerializerDeserializer {
         v8::String::ExternalAsciiStringResource** resource);
     // We can't serialize a heap with external two byte strings.
     void VisitExternalTwoByteString(
-        v8::String::ExternalStringResource** resource) {
+        v8::String::ExternalStringResource** resource __attribute__((unused))) {
       UNREACHABLE();
     }
 
@@ -641,7 +642,7 @@ class StartupSerializer : public Serializer {
   }
 
  private:
-  virtual bool ShouldBeInThePartialSnapshotCache(HeapObject* o) {
+  virtual bool ShouldBeInThePartialSnapshotCache(HeapObject* o __attribute__((unused))) {
     return false;
   }
 };

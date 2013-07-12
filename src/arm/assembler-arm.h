@@ -558,7 +558,7 @@ class CpuFeatures : public AllStatic {
 #else
 
    public:
-    explicit Scope(CpuFeature f) {}
+    explicit Scope(CpuFeature f __attribute__((unused))) {}
 #endif
   };
 

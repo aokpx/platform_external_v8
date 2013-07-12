@@ -776,7 +776,7 @@ enum MayAccessDecision {
 
 static MayAccessDecision MayAccessPreCheck(Isolate* isolate,
                                            JSObject* receiver,
-                                           v8::AccessType type) {
+                                           v8::AccessType type __attribute__((unused))) {
   // During bootstrapping, callback functions are not enabled yet.
   if (isolate->bootstrapper()->IsActive()) return YES;
 
@@ -921,7 +921,7 @@ Failure* Isolate::Throw(Object* exception, MessageLocation* location) {
 }
 
 
-Failure* Isolate::ReThrow(MaybeObject* exception, MessageLocation* location) {
+Failure* Isolate::ReThrow(MaybeObject* exception, MessageLocation* location __attribute__((unused))) {
   bool can_be_caught_externally = false;
   bool catchable_by_javascript = is_catchable_by_javascript(exception);
   ShouldReportException(&can_be_caught_externally, catchable_by_javascript);

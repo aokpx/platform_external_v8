@@ -64,7 +64,7 @@ class AssemblerBase: public Malloced {
 
   // Overwrite a host NaN with a quiet target NaN.  Used by mksnapshot for
   // cross-snapshotting.
-  static void QuietNaN(HeapObject* nan) { }
+  static void QuietNaN(HeapObject* nan __attribute__((unused))) { }
 
  private:
   Isolate* isolate_;
@@ -874,7 +874,7 @@ class NullCallWrapper : public CallWrapper {
  public:
   NullCallWrapper() { }
   virtual ~NullCallWrapper() { }
-  virtual void BeforeCall(int call_size) const { }
+  virtual void BeforeCall(int call_size __attribute__((unused))) const { }
   virtual void AfterCall() const { }
 };
 

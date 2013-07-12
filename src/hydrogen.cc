@@ -1633,7 +1633,7 @@ bool HGlobalValueNumberer::AllowCodeMotion() {
 
 
 bool HGlobalValueNumberer::ShouldMove(HInstruction* instr,
-                                      HBasicBlock* loop_header) {
+                                      HBasicBlock* loop_header __attribute__((unused))) {
   // If we've disabled code motion or we're in a block that unconditionally
   // deoptimizes, don't move any instructions.
   return AllowCodeMotion() && !instr->block()->IsDeoptimizing();
@@ -2245,7 +2245,7 @@ ValueContext::~ValueContext() {
 }
 
 
-void EffectContext::ReturnValue(HValue* value) {
+void EffectContext::ReturnValue(HValue* value __attribute__((unused))) {
   // The value is simply ignored.
 }
 
@@ -2330,7 +2330,8 @@ void TestContext::ReturnInstruction(HInstruction* instr, int ast_id) {
 }
 
 
-void TestContext::ReturnControl(HControlInstruction* instr, int ast_id) {
+void TestContext::ReturnControl(HControlInstruction* instr,
+                                int ast_id __attribute__((unused))) {
   ASSERT(!instr->HasObservableSideEffects());
   HBasicBlock* empty_true = owner()->graph()->CreateBasicBlock();
   HBasicBlock* empty_false = owner()->graph()->CreateBasicBlock();
@@ -2725,7 +2726,8 @@ void HGraphBuilder::VisitExpressionStatement(ExpressionStatement* stmt) {
 }
 
 
-void HGraphBuilder::VisitEmptyStatement(EmptyStatement* stmt) {
+void HGraphBuilder::VisitEmptyStatement(
+    EmptyStatement* stmt __attribute__((unused))) {
   ASSERT(!HasStackOverflow());
   ASSERT(current_block() != NULL);
   ASSERT(current_block()->HasPredecessor());
@@ -2904,7 +2906,8 @@ void HGraphBuilder::VisitReturnStatement(ReturnStatement* stmt) {
 }
 
 
-void HGraphBuilder::VisitWithStatement(WithStatement* stmt) {
+void HGraphBuilder::VisitWithStatement(
+    WithStatement* stmt __attribute__((unused))) {
   ASSERT(!HasStackOverflow());
   ASSERT(current_block() != NULL);
   ASSERT(current_block()->HasPredecessor());
@@ -3428,7 +3431,8 @@ void HGraphBuilder::VisitForInStatement(ForInStatement* stmt) {
 }
 
 
-void HGraphBuilder::VisitTryCatchStatement(TryCatchStatement* stmt) {
+void HGraphBuilder::VisitTryCatchStatement(
+    TryCatchStatement* stmt __attribute__((unused))) {
   ASSERT(!HasStackOverflow());
   ASSERT(current_block() != NULL);
   ASSERT(current_block()->HasPredecessor());
@@ -3436,7 +3440,8 @@ void HGraphBuilder::VisitTryCatchStatement(TryCatchStatement* stmt) {
 }
 
 
-void HGraphBuilder::VisitTryFinallyStatement(TryFinallyStatement* stmt) {
+void HGraphBuilder::VisitTryFinallyStatement(
+    TryFinallyStatement* stmt __attribute__((unused))) {
   ASSERT(!HasStackOverflow());
   ASSERT(current_block() != NULL);
   ASSERT(current_block()->HasPredecessor());
@@ -3444,7 +3449,8 @@ void HGraphBuilder::VisitTryFinallyStatement(TryFinallyStatement* stmt) {
 }
 
 
-void HGraphBuilder::VisitDebuggerStatement(DebuggerStatement* stmt) {
+void HGraphBuilder::VisitDebuggerStatement(
+    DebuggerStatement* stmt __attribute__((unused))) {
   ASSERT(!HasStackOverflow());
   ASSERT(current_block() != NULL);
   ASSERT(current_block()->HasPredecessor());
@@ -3492,7 +3498,7 @@ void HGraphBuilder::VisitFunctionLiteral(FunctionLiteral* expr) {
 
 
 void HGraphBuilder::VisitSharedFunctionInfoLiteral(
-    SharedFunctionInfoLiteral* expr) {
+    SharedFunctionInfoLiteral* expr __attribute__((unused))) {
   ASSERT(!HasStackOverflow());
   ASSERT(current_block() != NULL);
   ASSERT(current_block()->HasPredecessor());
@@ -4506,7 +4512,7 @@ void HGraphBuilder::VisitThrow(Throw* expr) {
 
 
 HLoadNamedField* HGraphBuilder::BuildLoadNamedField(HValue* object,
-                                                    Property* expr,
+                                                    Property* expr __attribute__((unused)),
                                                     Handle<Map> type,
                                                     LookupResult* lookup,
                                                     bool smi_and_map_check) {
@@ -7066,47 +7072,56 @@ void HGraphBuilder::HandleDeclaration(VariableProxy* proxy,
 }
 
 
-void HGraphBuilder::VisitVariableDeclaration(VariableDeclaration* decl) {
+void HGraphBuilder::VisitVariableDeclaration(
+    VariableDeclaration* decl __attribute__((unused))) {
   UNREACHABLE();
 }
 
 
-void HGraphBuilder::VisitFunctionDeclaration(FunctionDeclaration* decl) {
+void HGraphBuilder::VisitFunctionDeclaration(
+    FunctionDeclaration* decl __attribute__((unused))) {
   UNREACHABLE();
 }
 
 
-void HGraphBuilder::VisitModuleDeclaration(ModuleDeclaration* decl) {
+void HGraphBuilder::VisitModuleDeclaration(
+    ModuleDeclaration* decl __attribute__((unused))) {
   UNREACHABLE();
 }
 
 
-void HGraphBuilder::VisitImportDeclaration(ImportDeclaration* decl) {
+void HGraphBuilder::VisitImportDeclaration(
+    ImportDeclaration* decl __attribute__((unused))) {
   UNREACHABLE();
 }
 
 
-void HGraphBuilder::VisitExportDeclaration(ExportDeclaration* decl) {
+void HGraphBuilder::VisitExportDeclaration(
+    ExportDeclaration* decl __attribute__((unused))) {
   UNREACHABLE();
 }
 
 
-void HGraphBuilder::VisitModuleLiteral(ModuleLiteral* module) {
+void HGraphBuilder::VisitModuleLiteral(
+    ModuleLiteral* module __attribute__((unused))) {
   // TODO(rossberg)
 }
 
 
-void HGraphBuilder::VisitModuleVariable(ModuleVariable* module) {
+void HGraphBuilder::VisitModuleVariable(
+    ModuleVariable* module __attribute__((unused))) {
   // TODO(rossberg)
 }
 
 
-void HGraphBuilder::VisitModulePath(ModulePath* module) {
+void HGraphBuilder::VisitModulePath(
+    ModulePath* module __attribute__((unused))) {
   // TODO(rossberg)
 }
 
 
-void HGraphBuilder::VisitModuleUrl(ModuleUrl* module) {
+void HGraphBuilder::VisitModuleUrl(
+    ModuleUrl* module __attribute__((unused))) {
   // TODO(rossberg)
 }
 
@@ -7174,7 +7189,8 @@ void HGraphBuilder::GenerateIsRegExp(CallRuntime* call) {
 }
 
 
-void HGraphBuilder::GenerateIsObject(CallRuntime* call) {
+void HGraphBuilder::GenerateIsObject(
+    CallRuntime* call __attribute__((unused))) {
   ASSERT(call->arguments()->length() == 1);
   CHECK_ALIVE(VisitForValue(call->arguments()->at(0)));
   HValue* value = Pop();
@@ -7183,7 +7199,8 @@ void HGraphBuilder::GenerateIsObject(CallRuntime* call) {
 }
 
 
-void HGraphBuilder::GenerateIsNonNegativeSmi(CallRuntime* call) {
+void HGraphBuilder::GenerateIsNonNegativeSmi(
+    CallRuntime* call __attribute__((unused))) {
   return Bailout("inlined runtime function: IsNonNegativeSmi");
 }
 
@@ -7199,7 +7216,7 @@ void HGraphBuilder::GenerateIsUndetectableObject(CallRuntime* call) {
 
 
 void HGraphBuilder::GenerateIsStringWrapperSafeForDefaultValueOf(
-    CallRuntime* call) {
+    CallRuntime* call __attribute__((unused))) {
   return Bailout(
       "inlined runtime function: IsStringWrapperSafeForDefaultValueOf");
 }
@@ -7251,7 +7268,7 @@ void HGraphBuilder::GenerateArguments(CallRuntime* call) {
 
 
 // Support for accessing the class and value fields of an object.
-void HGraphBuilder::GenerateClassOf(CallRuntime* call) {
+void HGraphBuilder::GenerateClassOf(CallRuntime* call __attribute__((unused))) {
   // The special form detected by IsClassOfTest is detected before we get here
   // and does not cause a bailout.
   return Bailout("inlined runtime function: ClassOf");
@@ -7374,7 +7391,7 @@ void HGraphBuilder::GenerateObjectEquals(CallRuntime* call) {
 }
 
 
-void HGraphBuilder::GenerateLog(CallRuntime* call) {
+void HGraphBuilder::GenerateLog(CallRuntime* call __attribute__((unused))) {
   // %_Log is ignored in optimized code.
   return ast_context()->ReturnValue(graph()->GetConstantUndefined());
 }
@@ -7448,7 +7465,8 @@ void HGraphBuilder::GenerateRegExpConstructResult(CallRuntime* call) {
 
 
 // Support for fast native caches.
-void HGraphBuilder::GenerateGetFromCache(CallRuntime* call) {
+void HGraphBuilder::GenerateGetFromCache(
+    CallRuntime* call __attribute__((unused))) {
   return Bailout("inlined runtime function: GetFromCache");
 }
 
@@ -7569,13 +7587,13 @@ void HGraphBuilder::GenerateMathLog(CallRuntime* call) {
 }
 
 
-void HGraphBuilder::GenerateMathSqrt(CallRuntime* call) {
+void HGraphBuilder::GenerateMathSqrt(CallRuntime* call __attribute__((unused))) {
   return Bailout("inlined runtime function: MathSqrt");
 }
 
 
 // Check whether two RegExps are equivalent
-void HGraphBuilder::GenerateIsRegExpEquivalent(CallRuntime* call) {
+void HGraphBuilder::GenerateIsRegExpEquivalent(CallRuntime* call __attribute__((unused))) {
   return Bailout("inlined runtime function: IsRegExpEquivalent");
 }
 
@@ -7589,7 +7607,7 @@ void HGraphBuilder::GenerateGetCachedArrayIndex(CallRuntime* call) {
 }
 
 
-void HGraphBuilder::GenerateFastAsciiArrayJoin(CallRuntime* call) {
+void HGraphBuilder::GenerateFastAsciiArrayJoin(CallRuntime* call __attribute__((unused))) {
   return Bailout("inlined runtime function: FastAsciiArrayJoin");
 }
 

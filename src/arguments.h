@@ -111,12 +111,13 @@ class CustomArguments : public Relocatable {
 };
 
 
-#define DECLARE_RUNTIME_FUNCTION(Type, Name)    \
+#define DECLARE_RUNTIME_FUNCTION(Type, Name)      \
 Type Name(Arguments args, Isolate* isolate)
 
 
-#define RUNTIME_FUNCTION(Type, Name)            \
-Type Name(Arguments args, Isolate* isolate)
+#define RUNTIME_FUNCTION(Type, Name)              \
+Type Name(Arguments args __attribute__((unused)), \
+          Isolate* isolate __attribute__((unused)))
 
 
 #define RUNTIME_ARGUMENTS(isolate, args) args, isolate

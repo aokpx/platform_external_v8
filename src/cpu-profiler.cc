@@ -415,7 +415,7 @@ void CpuProfiler::CodeMoveEvent(Address from, Address to) {
 }
 
 
-void CpuProfiler::CodeDeleteEvent(Address from) {
+void CpuProfiler::CodeDeleteEvent(Address from __attribute__((unused))) {
 }
 
 

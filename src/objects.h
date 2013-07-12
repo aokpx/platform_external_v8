@@ -2316,7 +2316,7 @@ class FixedArray: public FixedArrayBase {
 
   class BodyDescriptor : public FlexibleBodyDescriptor<kHeaderSize> {
    public:
-    static inline int SizeOf(Map* map, HeapObject* object) {
+    static inline int SizeOf(Map* map __attribute__((unused)), HeapObject* object) {
       return SizeFor(reinterpret_cast<FixedArray*>(object)->length());
     }
   };
@@ -2686,13 +2686,15 @@ template<typename Key>
 class BaseShape {
  public:
   static const bool UsesSeed = false;
-  static uint32_t Hash(Key key) { return 0; }
-  static uint32_t SeededHash(Key key, uint32_t seed) {
+  static uint32_t Hash(Key key __attribute__((unused))) { return 0; }
+  static uint32_t SeededHash(Key key, uint32_t seed __attribute__((unused))) {
     ASSERT(UsesSeed);
     return Hash(key);
   }
-  static uint32_t HashForObject(Key key, Object* object) { return 0; }
-  static uint32_t SeededHashForObject(Key key, uint32_t seed, Object* object) {
+  static uint32_t HashForObject(Key key __attribute__((unused)),
+                                Object* object __attribute__((unused))) { return 0; }
+  static uint32_t SeededHashForObject(Key key, uint32_t seed __attribute__((unused)),
+                                      Object* object) {
     ASSERT(UsesSeed);
     return HashForObject(key, object);
   }
@@ -3651,7 +3653,7 @@ class FreeSpace: public HeapObject {
 // raised rather than being silently ignored.
 class ExternalArray: public FixedArrayBase {
  public:
-  inline bool is_the_hole(int index) { return false; }
+  inline bool is_the_hole(int index __attribute__((unused))) { return false; }
 
   // [external_pointer]: The pointer to the external memory area backing this
   // external array.
@@ -7492,7 +7494,7 @@ class Relocatable BASE_EMBEDDED {
  public:
   explicit inline Relocatable(Isolate* isolate);
   inline virtual ~Relocatable();
-  virtual void IterateInstance(ObjectVisitor* v) { }
+  virtual void IterateInstance(ObjectVisitor* v __attribute__((unused))) { }
   virtual void PostGarbageCollection() { }
 
   static void PostGarbageCollectionProcessing();
@@ -8529,13 +8531,13 @@ class ObjectVisitor BASE_EMBEDDED {
   virtual void VisitGlobalPropertyCell(RelocInfo* rinfo);
 
   // Visits a runtime entry in the instruction stream.
-  virtual void VisitRuntimeEntry(RelocInfo* rinfo) {}
+  virtual void VisitRuntimeEntry(RelocInfo* rinfo __attribute__((unused))) {}
 
   // Visits the resource of an ASCII or two-byte string.
   virtual void VisitExternalAsciiString(
-      v8::String::ExternalAsciiStringResource** resource) {}
+      v8::String::ExternalAsciiStringResource** resource __attribute__((unused))) {}
   virtual void VisitExternalTwoByteString(
-      v8::String::ExternalStringResource** resource) {}
+      v8::String::ExternalStringResource** resource __attribute__((unused))) {}
 
   // Visits a debug call target in the instruction stream.
   virtual void VisitDebugTarget(RelocInfo* rinfo);
@@ -8546,12 +8548,12 @@ class ObjectVisitor BASE_EMBEDDED {
   // Visit pointer embedded into a code object.
   virtual void VisitEmbeddedPointer(RelocInfo* rinfo);
 
-  virtual void VisitSharedFunctionInfo(SharedFunctionInfo* shared) {}
+  virtual void VisitSharedFunctionInfo(SharedFunctionInfo* shared __attribute__((unused))) {}
 
   // Visits a contiguous arrays of external references (references to the C++
   // heap) in the half-open range [start, end). Any or all of the values
   // may be modified on return.
-  virtual void VisitExternalReferences(Address* start, Address* end) {}
+  virtual void VisitExternalReferences(Address* start __attribute__((unused)), Address* end __attribute__((unused))) {}
 
   virtual void VisitExternalReference(RelocInfo* rinfo);
 
@@ -8560,19 +8562,19 @@ class ObjectVisitor BASE_EMBEDDED {
   }
 
   // Visits a handle that has an embedder-assigned class ID.
-  virtual void VisitEmbedderReference(Object** p, uint16_t class_id) {}
+  virtual void VisitEmbedderReference(Object** p __attribute__((unused)), uint16_t class_id __attribute__((unused))) {}
 
   // Intended for serialization/deserialization checking: insert, or
   // check for the presence of, a tag at this position in the stream.
   // Also used for marking up GC roots in heap snapshots.
-  virtual void Synchronize(VisitorSynchronization::SyncTag tag) {}
+  virtual void Synchronize(VisitorSynchronization::SyncTag tag __attribute__((unused))) {}
 };
 
 
 class StructBodyDescriptor : public
   FlexibleBodyDescriptor<HeapObject::kHeaderSize> {
  public:
-  static inline int SizeOf(Map* map, HeapObject* object) {
+  static inline int SizeOf(Map* map, HeapObject* object __attribute__((unused))) {
     return map->instance_size();
   }
 };

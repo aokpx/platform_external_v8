@@ -1101,7 +1101,8 @@ void Deserializer::ReadChunk(Object** current,
 }
 
 
-void SnapshotByteSink::PutInt(uintptr_t integer, const char* description) {
+void SnapshotByteSink::PutInt(uintptr_t integer,
+                              const char* description __attribute__((unused))) {
   const int max_shift = ((kPointerSize * kBitsPerByte) / 7) * 7;
   for (int shift = max_shift; shift > 0; shift -= 7) {
     if (integer >= static_cast<uintptr_t>(1u) << shift) {
@@ -1243,7 +1244,8 @@ int PartialSerializer::PartialSnapshotCacheIndex(HeapObject* heap_object) {
 }
 
 
-int Serializer::RootIndex(HeapObject* heap_object, HowToCode from) {
+int Serializer::RootIndex(HeapObject* heap_object,
+                          HowToCode from __attribute__((unused))) {
   Heap* heap = HEAP;
   if (heap->InNewSpace(heap_object)) return kInvalidRootIndex;
   for (int i = 0; i < root_index_wave_front_; i++) {
@@ -1570,7 +1572,8 @@ void Serializer::ObjectSerializer::VisitCodeEntry(Address entry_address) {
 }
 
 
-void Serializer::ObjectSerializer::VisitGlobalPropertyCell(RelocInfo* rinfo) {
+void Serializer::ObjectSerializer::VisitGlobalPropertyCell(
+    RelocInfo* rinfo __attribute__((unused))) {
   // We shouldn't have any global property cell references in code
   // objects in the snapshot.
   UNREACHABLE();

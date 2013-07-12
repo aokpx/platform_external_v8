@@ -1083,7 +1083,7 @@ class StaticMarkingVisitor : public StaticVisitorBase {
 
 
   // Visit an unmarked object.
-  INLINE(static void VisitUnmarkedObject(MarkCompactCollector* collector,
+  INLINE(static void VisitUnmarkedObject(MarkCompactCollector* collector __attribute__((unused)),
                                          HeapObject* obj)) {
 #ifdef DEBUG
     ASSERT(Isolate::Current()->heap()->Contains(obj));
@@ -1122,18 +1122,20 @@ class StaticMarkingVisitor : public StaticVisitorBase {
     return true;
   }
 
-  static inline void VisitExternalReference(Address* p) { }
-  static inline void VisitExternalReference(RelocInfo* rinfo) { }
-  static inline void VisitRuntimeEntry(RelocInfo* rinfo) { }
+  static inline void VisitExternalReference(Address* p __attribute__((unused))) { }
+  static inline void VisitExternalReference(RelocInfo* rinfo __attribute__((unused))) { }
+  static inline void VisitRuntimeEntry(RelocInfo* rinfo __attribute__((unused))) { }
 
  private:
   class DataObjectVisitor {
    public:
     template<int size>
-    static void VisitSpecialized(Map* map, HeapObject* object) {
+    static void VisitSpecialized(Map* map __attribute__((unused)),
+                                 HeapObject* object __attribute__((unused))) {
     }
 
-    static void Visit(Map* map, HeapObject* object) {
+    static void Visit(Map* map __attribute__((unused)),
+                      HeapObject* object __attribute__((unused))) {
     }
   };
 
@@ -2732,7 +2734,8 @@ class PointersUpdatingVisitor: public ObjectVisitor {
     rinfo->set_call_address(Code::cast(target)->instruction_start());
   }
 
-  static inline void UpdateSlot(Heap* heap, Object** slot) {
+  static inline void UpdateSlot(Heap* heap __attribute__((unused)),
+                                Object** slot) {
     Object* obj = *slot;
 
     if (!obj->IsHeapObject()) return;
@@ -2780,8 +2783,8 @@ static void UpdatePointer(HeapObject** p, HeapObject* object) {
 }
 
 
-static String* UpdateReferenceInExternalStringTableEntry(Heap* heap,
-                                                         Object** p) {
+static String* UpdateReferenceInExternalStringTableEntry(
+    Heap* heap __attribute__((unused)), Object** p) {
   MapWord map_word = HeapObject::cast(*p)->map_word();
 
   if (map_word.IsForwardingAddress()) {

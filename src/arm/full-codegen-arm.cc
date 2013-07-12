@@ -459,7 +459,8 @@ void FullCodeGenerator::EmitReturnSequence() {
 }
 
 
-void FullCodeGenerator::EffectContext::Plug(Variable* var) const {
+void FullCodeGenerator::EffectContext::Plug(
+    Variable* var __attribute__((unused))) const {
   ASSERT(var->IsStackAllocated() || var->IsContextSlot());
 }
 
@@ -486,7 +487,8 @@ void FullCodeGenerator::TestContext::Plug(Variable* var) const {
 }
 
 
-void FullCodeGenerator::EffectContext::Plug(Heap::RootListIndex index) const {
+void FullCodeGenerator::EffectContext::Plug(
+    Heap::RootListIndex index __attribute__((unused))) const {
 }
 
 
@@ -521,7 +523,8 @@ void FullCodeGenerator::TestContext::Plug(Heap::RootListIndex index) const {
 }
 
 
-void FullCodeGenerator::EffectContext::Plug(Handle<Object> lit) const {
+void FullCodeGenerator::EffectContext::Plug(
+    Handle<Object> lit __attribute__((unused))) const {
 }
 
 
@@ -568,8 +571,8 @@ void FullCodeGenerator::TestContext::Plug(Handle<Object> lit) const {
 }
 
 
-void FullCodeGenerator::EffectContext::DropAndPlug(int count,
-                                                   Register reg) const {
+void FullCodeGenerator::EffectContext::DropAndPlug(
+    int count, Register reg __attribute__((unused))) const {
   ASSERT(count > 0);
   __ Drop(count);
 }
@@ -603,8 +606,8 @@ void FullCodeGenerator::TestContext::DropAndPlug(int count,
 }
 
 
-void FullCodeGenerator::EffectContext::Plug(Label* materialize_true,
-                                            Label* materialize_false) const {
+void FullCodeGenerator::EffectContext::Plug(
+    Label* materialize_true, Label* materialize_false __attribute__((unused))) const {
   ASSERT(materialize_true == materialize_false);
   __ bind(materialize_true);
 }
@@ -638,14 +641,14 @@ void FullCodeGenerator::StackValueContext::Plug(
 }
 
 
-void FullCodeGenerator::TestContext::Plug(Label* materialize_true,
-                                          Label* materialize_false) const {
+void FullCodeGenerator::TestContext::Plug(Label* materialize_true __attribute__((unused)),
+                                          Label* materialize_false __attribute__((unused))) const {
   ASSERT(materialize_true == true_label_);
   ASSERT(materialize_false == false_label_);
 }
 
 
-void FullCodeGenerator::EffectContext::Plug(bool flag) const {
+void FullCodeGenerator::EffectContext::Plug(bool flag __attribute__((unused))) const {
 }
 
 
@@ -677,7 +680,7 @@ void FullCodeGenerator::TestContext::Plug(bool flag) const {
 }
 
 
-void FullCodeGenerator::DoTest(Expression* condition,
+void FullCodeGenerator::DoTest(Expression* condition __attribute__((unused)),
                                Label* if_true,
                                Label* if_false,
                                Label* fall_through) {
@@ -1822,8 +1825,8 @@ void FullCodeGenerator::EmitKeyedPropertyLoad(Property* prop) {
 void FullCodeGenerator::EmitInlineSmiBinaryOp(BinaryOperation* expr,
                                               Token::Value op,
                                               OverwriteMode mode,
-                                              Expression* left_expr,
-                                              Expression* right_expr) {
+                                              Expression* left_expr __attribute__((unused)),
+                                              Expression* right_expr __attribute__((unused))) {
   Label done, smi_case, stub_call;
 
   Register scratch1 = r2;
@@ -2824,7 +2827,8 @@ void FullCodeGenerator::EmitArguments(CallRuntime* expr) {
 }
 
 
-void FullCodeGenerator::EmitArgumentsLength(CallRuntime* expr) {
+void FullCodeGenerator::EmitArgumentsLength(
+    CallRuntime* expr __attribute__((unused))) {
   ASSERT(expr->arguments()->length() == 0);
   Label exit;
   // Get the number of formal parameters.
@@ -2928,7 +2932,8 @@ void FullCodeGenerator::EmitLog(CallRuntime* expr) {
 }
 
 
-void FullCodeGenerator::EmitRandomHeapNumber(CallRuntime* expr) {
+void FullCodeGenerator::EmitRandomHeapNumber(
+    CallRuntime* expr __attribute__((unused))) {
   ASSERT(expr->arguments()->length() == 0);
   Label slow_allocate_heapnumber;
   Label heapnumber_allocated;
@@ -4328,7 +4333,7 @@ void FullCodeGenerator::EmitLiteralCompareNil(CompareOperation* expr,
 }
 
 
-void FullCodeGenerator::VisitThisFunction(ThisFunction* expr) {
+void FullCodeGenerator::VisitThisFunction(ThisFunction* expr __attribute__((unused))) {
   __ ldr(r0, MemOperand(fp, JavaScriptFrameConstants::kFunctionOffset));
   context()->Plug(r0);
 }

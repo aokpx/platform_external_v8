@@ -125,8 +125,8 @@ class RegExpMacroAssembler {
   // character. Returns false if the type of special character class does
   // not have custom support.
   // May clobber the current loaded character.
-  virtual bool CheckSpecialCharacterClass(uc16 type,
-                                          Label* on_no_match) {
+  virtual bool CheckSpecialCharacterClass(
+    uc16 type __attribute__((unused)), Label* on_no_match __attribute__((unused))) {
     return false;
   }
   virtual void Fail() = 0;

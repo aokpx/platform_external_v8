@@ -2503,7 +2503,7 @@ class V8EXPORT Extension {  // NOLINT
             int source_length = -1);
   virtual ~Extension() { }
   virtual v8::Handle<v8::FunctionTemplate>
-      GetNativeFunction(v8::Handle<v8::String> name) {
+      GetNativeFunction(v8::Handle<v8::String> name __attribute__((unused))) {
     return v8::Handle<v8::FunctionTemplate>();
   }
 
@@ -2885,7 +2885,7 @@ typedef uintptr_t (*ReturnAddressLocationResolver)(
 class V8EXPORT ExternalResourceVisitor {  // NOLINT
  public:
   virtual ~ExternalResourceVisitor() {}
-  virtual void VisitExternalString(Handle<String> string) {}
+  virtual void VisitExternalString(Handle<String> string __attribute__((unused))) {}
 };
 
 
@@ -3928,13 +3928,13 @@ class Internals {
     return *reinterpret_cast<T*>(addr);
   }
 
-  static inline bool CanCastToHeapObject(void* o) { return false; }
-  static inline bool CanCastToHeapObject(Context* o) { return true; }
-  static inline bool CanCastToHeapObject(String* o) { return true; }
-  static inline bool CanCastToHeapObject(Object* o) { return true; }
-  static inline bool CanCastToHeapObject(Message* o) { return true; }
-  static inline bool CanCastToHeapObject(StackTrace* o) { return true; }
-  static inline bool CanCastToHeapObject(StackFrame* o) { return true; }
+  static inline bool CanCastToHeapObject(void* o __attribute__((unused))) { return false; }
+  static inline bool CanCastToHeapObject(Context* o __attribute__((unused))) { return true; }
+  static inline bool CanCastToHeapObject(String* o __attribute__((unused))) { return true; }
+  static inline bool CanCastToHeapObject(Object* o __attribute__((unused))) { return true; }
+  static inline bool CanCastToHeapObject(Message* o __attribute__((unused))) { return true; }
+  static inline bool CanCastToHeapObject(StackTrace* o __attribute__((unused))) { return true; }
+  static inline bool CanCastToHeapObject(StackFrame* o __attribute__((unused))) { return true; }
 };
 
 }  // namespace internal

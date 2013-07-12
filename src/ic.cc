@@ -626,7 +626,7 @@ bool CallICBase::TryUpdateExtraICState(LookupResult* lookup,
 
 
 Handle<Code> CallICBase::ComputeMonomorphicStub(LookupResult* lookup,
-                                                State state,
+                                                State state __attribute__((unused)),
                                                 Code::ExtraICState extra_state,
                                                 Handle<Object> object,
                                                 Handle<String> name) {
@@ -1024,9 +1024,9 @@ void LoadIC::UpdateCaches(LookupResult* lookup,
 
 
 Handle<Code> KeyedLoadIC::GetElementStubWithoutMapCheck(
-    bool is_js_array,
+    bool is_js_array __attribute__((unused)),
     ElementsKind elements_kind,
-    KeyedAccessGrowMode grow_mode) {
+    KeyedAccessGrowMode grow_mode __attribute__((unused))) {
   ASSERT(grow_mode == DO_NOT_ALLOW_JSARRAY_GROWTH);
   return KeyedLoadElementStub(elements_kind).GetCode();
 }
@@ -1392,7 +1392,7 @@ void StoreIC::UpdateCaches(LookupResult* lookup,
                            StrictModeFlag strict_mode,
                            Handle<JSObject> receiver,
                            Handle<String> name,
-                           Handle<Object> value) {
+                           Handle<Object> value __attribute__((unused))) {
   ASSERT(!receiver->IsJSGlobalProxy());
   ASSERT(StoreICableLookup(lookup));
   // These are not cacheable, so we never see such LookupResults here.
@@ -1612,7 +1612,7 @@ Handle<Code> KeyedIC::ComputeStub(Handle<JSObject> receiver,
 
 Handle<Code> KeyedIC::ComputeMonomorphicStubWithoutMapCheck(
     Handle<Map> receiver_map,
-    StrictModeFlag strict_mode,
+    StrictModeFlag strict_mode __attribute__((unused)),
     KeyedAccessGrowMode grow_mode) {
   if ((receiver_map->instance_type() & kNotStringTag) == 0) {
     ASSERT(!string_stub().is_null());
@@ -1840,7 +1840,7 @@ void KeyedStoreIC::UpdateCaches(LookupResult* lookup,
                                 StrictModeFlag strict_mode,
                                 Handle<JSObject> receiver,
                                 Handle<String> name,
-                                Handle<Object> value) {
+                                Handle<Object> value __attribute__((unused))) {
   ASSERT(!receiver->IsJSGlobalProxy());
   ASSERT(StoreICableLookup(lookup));
   // These are not cacheable, so we never see such LookupResults here.

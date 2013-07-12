@@ -45,58 +45,58 @@ void BreakableStatementChecker::Check(Statement* stmt) {
   Visit(stmt);
 }
 
-
 void BreakableStatementChecker::Check(Expression* expr) {
   Visit(expr);
 }
 
-
 void BreakableStatementChecker::VisitVariableDeclaration(
-    VariableDeclaration* decl) {
+    VariableDeclaration* decl __attribute__((unused))) {
 }
 
 void BreakableStatementChecker::VisitFunctionDeclaration(
-    FunctionDeclaration* decl) {
+    FunctionDeclaration* decl __attribute__((unused))) {
 }
 
 void BreakableStatementChecker::VisitModuleDeclaration(
-    ModuleDeclaration* decl) {
+    ModuleDeclaration* decl __attribute__((unused))) {
 }
 
 void BreakableStatementChecker::VisitImportDeclaration(
-    ImportDeclaration* decl) {
+    ImportDeclaration* decl __attribute__((unused))) {
 }
 
 void BreakableStatementChecker::VisitExportDeclaration(
-    ExportDeclaration* decl) {
+    ExportDeclaration* decl __attribute__((unused))) {
 }
 
-
-void BreakableStatementChecker::VisitModuleLiteral(ModuleLiteral* module) {
+void BreakableStatementChecker::VisitModuleLiteral(
+    ModuleLiteral* module __attribute__((unused))) {
 }
 
-void BreakableStatementChecker::VisitModuleVariable(ModuleVariable* module) {
+void BreakableStatementChecker::VisitModuleVariable(
+    ModuleVariable* module __attribute__((unused))) {
 }
 
-void BreakableStatementChecker::VisitModulePath(ModulePath* module) {
+void BreakableStatementChecker::VisitModulePath(
+    ModulePath* module __attribute__((unused))) {
 }
 
-void BreakableStatementChecker::VisitModuleUrl(ModuleUrl* module) {
+void BreakableStatementChecker::VisitModuleUrl(
+    ModuleUrl* module __attribute__((unused))) {
 }
 
-
-void BreakableStatementChecker::VisitBlock(Block* stmt) {
+void BreakableStatementChecker::VisitBlock(
+    Block* stmt __attribute__((unused))) {
 }
-
 
 void BreakableStatementChecker::VisitExpressionStatement(
-    ExpressionStatement* stmt) {
+    ExpressionStatement* stmt __attribute__((unused))) {
   // Check if expression is breakable.
   Visit(stmt->expression());
 }
 
-
-void BreakableStatementChecker::VisitEmptyStatement(EmptyStatement* stmt) {
+void BreakableStatementChecker::VisitEmptyStatement(
+    EmptyStatement* stmt __attribute__((unused))) {
 }
 
 
@@ -107,11 +107,12 @@ void BreakableStatementChecker::VisitIfStatement(IfStatement* stmt) {
 
 
 void BreakableStatementChecker::VisitContinueStatement(
-    ContinueStatement* stmt) {
+    ContinueStatement* stmt __attribute__((unused))) {
 }
 
 
-void BreakableStatementChecker::VisitBreakStatement(BreakStatement* stmt) {
+void BreakableStatementChecker::VisitBreakStatement(
+    BreakStatement* stmt __attribute__((unused))) {
 }
 
 
@@ -132,7 +133,8 @@ void BreakableStatementChecker::VisitSwitchStatement(SwitchStatement* stmt) {
 }
 
 
-void BreakableStatementChecker::VisitDoWhileStatement(DoWhileStatement* stmt) {
+void BreakableStatementChecker::VisitDoWhileStatement(
+    DoWhileStatement* stmt __attribute__((unused))) {
   // Mark do while as breakable to avoid adding a break slot in front of it.
   is_breakable_ = true;
 }
@@ -159,56 +161,63 @@ void BreakableStatementChecker::VisitForInStatement(ForInStatement* stmt) {
 
 
 void BreakableStatementChecker::VisitTryCatchStatement(
-    TryCatchStatement* stmt) {
+    TryCatchStatement* stmt __attribute__((unused))) {
   // Mark try catch as breakable to avoid adding a break slot in front of it.
   is_breakable_ = true;
 }
 
 
 void BreakableStatementChecker::VisitTryFinallyStatement(
-    TryFinallyStatement* stmt) {
+    TryFinallyStatement* stmt __attribute__((unused))) {
   // Mark try finally as breakable to avoid adding a break slot in front of it.
   is_breakable_ = true;
 }
 
 
 void BreakableStatementChecker::VisitDebuggerStatement(
-    DebuggerStatement* stmt) {
+    DebuggerStatement* stmt __attribute__((unused))) {
   // The debugger statement is breakable.
   is_breakable_ = true;
 }
 
 
-void BreakableStatementChecker::VisitFunctionLiteral(FunctionLiteral* expr) {
+void BreakableStatementChecker::VisitFunctionLiteral(
+    FunctionLiteral* expr __attribute__((unused))) {
 }
 
 
 void BreakableStatementChecker::VisitSharedFunctionInfoLiteral(
-    SharedFunctionInfoLiteral* expr) {
+    SharedFunctionInfoLiteral* expr __attribute__((unused))) {
 }
 
 
-void BreakableStatementChecker::VisitConditional(Conditional* expr) {
+void BreakableStatementChecker::VisitConditional(
+    Conditional* expr __attribute__((unused))) {
 }
 
 
-void BreakableStatementChecker::VisitVariableProxy(VariableProxy* expr) {
+void BreakableStatementChecker::VisitVariableProxy(
+    VariableProxy* expr __attribute__((unused))) {
 }
 
 
-void BreakableStatementChecker::VisitLiteral(Literal* expr) {
+void BreakableStatementChecker::VisitLiteral(
+    Literal* expr __attribute__((unused))) {
 }
 
 
-void BreakableStatementChecker::VisitRegExpLiteral(RegExpLiteral* expr) {
+void BreakableStatementChecker::VisitRegExpLiteral(
+    RegExpLiteral* expr __attribute__((unused))) {
 }
 
 
-void BreakableStatementChecker::VisitObjectLiteral(ObjectLiteral* expr) {
+void BreakableStatementChecker::VisitObjectLiteral(
+    ObjectLiteral* expr __attribute__((unused))) {
 }
 
 
-void BreakableStatementChecker::VisitArrayLiteral(ArrayLiteral* expr) {
+void BreakableStatementChecker::VisitArrayLiteral(
+    ArrayLiteral* expr __attribute__((unused))) {
 }
 
 
@@ -233,25 +242,28 @@ void BreakableStatementChecker::VisitThrow(Throw* expr) {
 }
 
 
-void BreakableStatementChecker::VisitProperty(Property* expr) {
+void BreakableStatementChecker::VisitProperty(
+    Property* expr __attribute__((unused))) {
   // Property load is breakable.
   is_breakable_ = true;
 }
 
 
-void BreakableStatementChecker::VisitCall(Call* expr) {
+void BreakableStatementChecker::VisitCall(Call* expr __attribute__((unused))) {
   // Function calls both through IC and call stub are breakable.
   is_breakable_ = true;
 }
 
 
-void BreakableStatementChecker::VisitCallNew(CallNew* expr) {
+void BreakableStatementChecker::VisitCallNew(
+    CallNew* expr __attribute__((unused))) {
   // Function calls through new are breakable.
   is_breakable_ = true;
 }
 
 
-void BreakableStatementChecker::VisitCallRuntime(CallRuntime* expr) {
+void BreakableStatementChecker::VisitCallRuntime(
+    CallRuntime* expr __attribute__((unused))) {
 }
 
 
@@ -280,7 +292,8 @@ void BreakableStatementChecker::VisitCompareOperation(CompareOperation* expr) {
 }
 
 
-void BreakableStatementChecker::VisitThisFunction(ThisFunction* expr) {
+void BreakableStatementChecker::VisitThisFunction(
+    ThisFunction* expr __attribute__((unused))) {
 }
 
 
@@ -473,7 +486,7 @@ bool FullCodeGenerator::ShouldInlineSmiCase(Token::Value op) {
 }
 
 
-void FullCodeGenerator::EffectContext::Plug(Register reg) const {
+void FullCodeGenerator::EffectContext::Plug(Register reg __attribute__((unused))) const {
 }
 
 
@@ -519,7 +532,7 @@ void FullCodeGenerator::TestContext::PlugTOS() const {
 
 void FullCodeGenerator::EffectContext::PrepareTest(
     Label* materialize_true,
-    Label* materialize_false,
+    Label* materialize_false __attribute__((unused)),
     Label** if_true,
     Label** if_false,
     Label** fall_through) const {
@@ -552,8 +565,8 @@ void FullCodeGenerator::StackValueContext::PrepareTest(
 
 
 void FullCodeGenerator::TestContext::PrepareTest(
-    Label* materialize_true,
-    Label* materialize_false,
+    Label* materialize_true __attribute__((unused)),
+    Label* materialize_false __attribute__((unused)),
     Label** if_true,
     Label** if_false,
     Label** fall_through) const {
@@ -638,27 +651,27 @@ void FullCodeGenerator::VisitImportDeclaration(ImportDeclaration* decl) {
 }
 
 
-void FullCodeGenerator::VisitExportDeclaration(ExportDeclaration* decl) {
+void FullCodeGenerator::VisitExportDeclaration(ExportDeclaration* decl __attribute__((unused))) {
   // TODO(rossberg)
 }
 
 
-void FullCodeGenerator::VisitModuleLiteral(ModuleLiteral* module) {
+void FullCodeGenerator::VisitModuleLiteral(ModuleLiteral* module __attribute__((unused))) {
   // TODO(rossberg)
 }
 
 
-void FullCodeGenerator::VisitModuleVariable(ModuleVariable* module) {
+void FullCodeGenerator::VisitModuleVariable(ModuleVariable* module __attribute__((unused))) {
   // TODO(rossberg)
 }
 
 
-void FullCodeGenerator::VisitModulePath(ModulePath* module) {
+void FullCodeGenerator::VisitModulePath(ModulePath* module __attribute__((unused))) {
   // TODO(rossberg)
 }
 
 
-void FullCodeGenerator::VisitModuleUrl(ModuleUrl* decl) {
+void FullCodeGenerator::VisitModuleUrl(ModuleUrl* decl __attribute__((unused))) {
   // TODO(rossberg)
 }
 
@@ -1396,7 +1409,7 @@ void FullCodeGenerator::VisitThrow(Throw* expr) {
 
 FullCodeGenerator::NestedStatement* FullCodeGenerator::TryCatch::Exit(
     int* stack_depth,
-    int* context_length) {
+    int* context_length __attribute__((unused))) {
   // The macros used here must preserve the result register.
   __ Drop(*stack_depth);
   __ PopTryHandler();

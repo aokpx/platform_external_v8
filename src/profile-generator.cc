@@ -345,7 +345,7 @@ class FilteredCloneCallback {
     }
   }
 
-  void AfterAllChildrenTraversed(ProfileNode* parent) { }
+  void AfterAllChildrenTraversed(ProfileNode* parent __attribute__((unused))) { }
 
   void AfterChildTraversed(ProfileNode*, ProfileNode* child) {
     if (stack_.last().src == child) {
@@ -2635,7 +2635,8 @@ class GlobalHandlesExtractor : public ObjectVisitor {
   explicit GlobalHandlesExtractor(NativeObjectsExplorer* explorer)
       : explorer_(explorer) {}
   virtual ~GlobalHandlesExtractor() {}
-  virtual void VisitPointers(Object** start, Object** end) {
+  virtual void VisitPointers(Object** start __attribute__((unused)),
+                             Object** end __attribute__((unused))) {
     UNREACHABLE();
   }
   virtual void VisitEmbedderReference(Object** p, uint16_t class_id) {
@@ -2973,7 +2974,8 @@ class SnapshotFiller : public SnapshotFillerInterface {
       : snapshot_(snapshot),
         collection_(snapshot->collection()),
         entries_(entries) { }
-  HeapEntry* AddEntry(HeapThing ptr, HeapEntriesAllocator* allocator) {
+  HeapEntry* AddEntry(HeapThing ptr __attribute__((unused)),
+                      HeapEntriesAllocator* allocator __attribute__((unused))) {
     UNREACHABLE();
     return NULL;
   }

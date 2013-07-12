@@ -176,7 +176,7 @@ void RuntimeProfiler::IsolateEnteredJS(Isolate* isolate) {
 }
 
 
-void RuntimeProfiler::IsolateExitedJS(Isolate* isolate) {
+void RuntimeProfiler::IsolateExitedJS(Isolate* isolate __attribute__((unused))) {
   Atomic32 new_state = NoBarrier_AtomicIncrement(&state_, -1);
   ASSERT(new_state >= 0);
   USE(new_state);

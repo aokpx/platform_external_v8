@@ -268,7 +268,7 @@ class CharacterRange {
  public:
   CharacterRange() : from_(0), to_(0) { }
   // For compatibility with the CHECK_OK macro
-  CharacterRange(void* null) { ASSERT_EQ(NULL, null); }  //NOLINT
+  CharacterRange(void* null __attribute__((unused))) { ASSERT_EQ(NULL, null); }  //NOLINT
   CharacterRange(uc16 from, uc16 to) : from_(from), to_(to) { }
   static void AddClassEscape(uc16 type, ZoneList<CharacterRange>* ranges);
   static Vector<const uc16> GetWordBounds();
@@ -955,10 +955,10 @@ class BackReferenceNode: public SeqRegExpNode {
   virtual int EatsAtLeast(int still_to_find,
                           int recursion_depth,
                           bool not_at_start);
-  virtual void GetQuickCheckDetails(QuickCheckDetails* details,
-                                    RegExpCompiler* compiler,
-                                    int characters_filled_in,
-                                    bool not_at_start) {
+  virtual void GetQuickCheckDetails(QuickCheckDetails* details __attribute__((unused)),
+                                    RegExpCompiler* compiler __attribute__((unused)),
+                                    int characters_filled_in __attribute__((unused)),
+                                    bool not_at_start __attribute__((unused))) {
     return;
   }
   virtual BackReferenceNode* Clone() { return new BackReferenceNode(*this); }
@@ -976,13 +976,13 @@ class EndNode: public RegExpNode {
   explicit EndNode(Action action) : action_(action) { }
   virtual void Accept(NodeVisitor* visitor);
   virtual void Emit(RegExpCompiler* compiler, Trace* trace);
-  virtual int EatsAtLeast(int still_to_find,
-                          int recursion_depth,
-                          bool not_at_start) { return 0; }
-  virtual void GetQuickCheckDetails(QuickCheckDetails* details,
-                                    RegExpCompiler* compiler,
-                                    int characters_filled_in,
-                                    bool not_at_start) {
+  virtual int EatsAtLeast(int still_to_find __attribute__((unused)),
+                          int recursion_depth __attribute__((unused)),
+                          bool not_at_start __attribute__((unused))) { return 0; }
+  virtual void GetQuickCheckDetails(QuickCheckDetails* details __attribute__((unused)),
+                                    RegExpCompiler* compiler __attribute__((unused)),
+                                    int characters_filled_in __attribute__((unused)),
+                                    bool not_at_start __attribute__((unused))) {
     // Returning 0 from EatsAtLeast should ensure we never get here.
     UNREACHABLE();
   }
@@ -1077,7 +1077,7 @@ class ChoiceNode: public RegExpNode {
   bool not_at_start() { return not_at_start_; }
   void set_not_at_start() { not_at_start_ = true; }
   void set_being_calculated(bool b) { being_calculated_ = b; }
-  virtual bool try_to_emit_quick_check_for_alternative(int i) { return true; }
+  virtual bool try_to_emit_quick_check_for_alternative(int i __attribute__((unused))) { return true; }
 
  protected:
   int GreedyLoopTextLengthForAlternative(GuardedAlternative* alternative);

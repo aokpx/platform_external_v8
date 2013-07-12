@@ -46,7 +46,7 @@ class SafepointGenerator : public CallWrapper {
         deopt_mode_(mode) { }
   virtual ~SafepointGenerator() { }
 
-  virtual void BeforeCall(int call_size) const { }
+  virtual void BeforeCall(int call_size __attribute__((unused))) const { }
 
   virtual void AfterCall() const {
     codegen_->RecordSafepoint(pointers_, deopt_mode_);
@@ -841,7 +841,7 @@ void LCodeGen::DoInstructionGap(LInstructionGap* instr) {
 }
 
 
-void LCodeGen::DoParameter(LParameter* instr) {
+void LCodeGen::DoParameter(LParameter* instr __attribute__((unused))) {
   // Nothing to do.
 }
 
@@ -892,7 +892,7 @@ void LCodeGen::DoCallStub(LCallStub* instr) {
 }
 
 
-void LCodeGen::DoUnknownOSRValue(LUnknownOSRValue* instr) {
+void LCodeGen::DoUnknownOSRValue(LUnknownOSRValue* instr __attribute__((unused))) {
   // Nothing to do.
 }
 
@@ -2293,7 +2293,7 @@ void LCodeGen::DoCmpT(LCmpT* instr) {
 }
 
 
-void LCodeGen::DoReturn(LReturn* instr) {
+void LCodeGen::DoReturn(LReturn* instr __attribute__((unused))) {
   if (FLAG_trace) {
     // Push the return value on the stack as the parameter.
     // Runtime::TraceExit returns its parameter in r0.
@@ -3346,7 +3346,7 @@ void LCodeGen::DoRandom(LRandom* instr) {
 }
 
 
-void LCodeGen::DoDeferredRandom(LRandom* instr) {
+void LCodeGen::DoDeferredRandom(LRandom* instr __attribute__((unused))) {
   __ PrepareCallCFunction(1, scratch0());
   __ CallCFunction(ExternalReference::random_uint32_function(isolate()), 1);
   // Return value is in r0.

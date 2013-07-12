@@ -1891,7 +1891,7 @@ class SemiSpace : public Space {
     return 0;
   }
 
-  virtual bool ReserveSpace(int bytes) {
+  virtual bool ReserveSpace(int bytes __attribute__((unused))) {
     UNREACHABLE();
     return false;
   }
@@ -1909,10 +1909,10 @@ class SemiSpace : public Space {
   // Validate a range of of addresses in a SemiSpace.
   // The "from" address must be on a page prior to the "to" address,
   // in the linked page order, or it must be earlier on the same page.
-  static void AssertValidRange(Address from, Address to);
+  static void AssertValidRange(Address from __attribute__((unused)), Address to __attribute__((unused)));
 #else
   // Do nothing.
-  inline static void AssertValidRange(Address from, Address to) {}
+  inline static void AssertValidRange(Address from __attribute__((unused)), Address to __attribute__((unused))) {}
 #endif
 
   // Returns the current capacity of the semi space.
