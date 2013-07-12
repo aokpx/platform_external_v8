@@ -37,7 +37,7 @@
 namespace v8 {
 namespace internal {
 
-inline Isolate* GetIsolateForHandle(Object* obj) {
+inline Isolate* GetIsolateForHandle(Object* obj __attribute__((unused))) {
   return Isolate::Current();
 }
 

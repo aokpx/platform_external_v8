@@ -1785,7 +1785,7 @@ class Heap {
   static int GcSafeSizeOfOldObject(HeapObject* object);
 
   // Update the GC state. Called from the mark-compact collector.
-  void MarkMapPointersAsEncoded(bool encoded) {
+  void MarkMapPointersAsEncoded(bool encoded __attribute__((unused))) {
     ASSERT(!encoded);
     gc_safe_size_of_old_object_ = &GcSafeSizeOfOldObject;
   }

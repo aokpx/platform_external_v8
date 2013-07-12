@@ -612,7 +612,7 @@ class PreParser {
 
   i::LanguageMode language_mode() { return scope_->language_mode(); }
 
-  void Consume(i::Token::Value token) { Next(); }
+  void Consume(i::Token::Value token __attribute__((unused))) { Next(); }
 
   void Expect(i::Token::Value token, bool* ok) {
     if (Next() != token) {

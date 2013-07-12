@@ -679,7 +679,8 @@ static MaybeObject* CheckNonStrictCallerOrThrow(
 
 class FrameFunctionIterator {
  public:
-  FrameFunctionIterator(Isolate* isolate, const AssertNoAllocation& promise)
+  FrameFunctionIterator(Isolate* isolate,
+                        const AssertNoAllocation& promise __attribute__((unused)))
       : frame_iterator_(isolate),
         functions_(2),
         index_(0) {

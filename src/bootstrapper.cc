@@ -1984,7 +1984,7 @@ void Genesis::ExtensionStates::set_state(RegisteredExtension* extension,
       reinterpret_cast<void*>(static_cast<intptr_t>(state));
 }
 
-bool Genesis::InstallExtensions(Handle<Context> global_context,
+bool Genesis::InstallExtensions(Handle<Context> global_context __attribute__((unused)),
                                 v8::ExtensionConfiguration* extensions) {
   // TODO(isolates): Extensions on multiple isolates may take a little more
   //                 effort. (The external API reads 'ignore'-- does that mean
@@ -2285,7 +2285,7 @@ void Genesis::MakeFunctionInstancePrototypeWritable() {
 Genesis::Genesis(Isolate* isolate,
                  Handle<Object> global_object,
                  v8::Handle<v8::ObjectTemplate> global_template,
-                 v8::ExtensionConfiguration* extensions) : isolate_(isolate) {
+                 v8::ExtensionConfiguration* extensions __attribute__((unused))) : isolate_(isolate) {
   result_ = Handle<Context>::null();
   // If V8 isn't running and cannot be initialized, just return.
   if (!V8::IsRunning() && !V8::Initialize(NULL)) return;

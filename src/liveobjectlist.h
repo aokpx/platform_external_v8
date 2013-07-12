@@ -267,48 +267,53 @@ class LiveObjectList {
  public:
   inline static void GCEpilogue() {}
   inline static void GCPrologue() {}
-  inline static void IterateElements(ObjectVisitor* v) {}
-  inline static void ProcessNonLive(HeapObject* obj) {}
+  inline static void IterateElements(ObjectVisitor* v __attribute__((unused))) {}
+  inline static void ProcessNonLive(HeapObject* obj __attribute__((unused))) {}
   inline static void UpdateReferencesForScavengeGC() {}
 
   inline static MaybeObject* Capture() { return HEAP->undefined_value(); }
-  inline static bool Delete(int id) { return false; }
-  inline static MaybeObject* Dump(int id1,
-                                  int id2,
-                                  int start_idx,
-                                  int dump_limit,
-                                  Handle<JSObject> filter_obj) {
+  inline static bool Delete(int id __attribute__((unused))) { return false; }
+  inline static MaybeObject* Dump(int id1 __attribute__((unused)),
+                                  int id2 __attribute__((unused)),
+                                  int start_idx __attribute__((unused)),
+                                  int dump_limit __attribute__((unused)),
+                                  Handle<JSObject> filter_obj __attribute__((unused))) {
     return HEAP->undefined_value();
   }
-  inline static MaybeObject* Info(int start_idx, int dump_limit) {
+  inline static MaybeObject* Info(int start_idx __attribute__((unused)),
+                                  int dump_limit __attribute__((unused))) {
     return HEAP->undefined_value();
   }
-  inline static MaybeObject* Summarize(int id1,
-                                       int id2,
-                                       Handle<JSObject> filter_obj) {
+  inline static MaybeObject* Summarize(int id1 __attribute__((unused)),
+                                       int id2 __attribute__((unused)),
+                                       Handle<JSObject> filter_obj __attribute__((unused))) {
     return HEAP->undefined_value();
   }
 
   inline static void Reset() {}
-  inline static Object* GetObj(int obj_id) { return HEAP->undefined_value(); }
-  inline static Object* GetObjId(Handle<String> address) {
+  inline static Object* GetObj(int obj_id __attribute__((unused))) {
     return HEAP->undefined_value();
   }
-  inline static MaybeObject* GetObjRetainers(int obj_id,
-                                             Handle<JSObject> instance_filter,
-                                             bool verbose,
-                                             int start,
-                                             int count,
-                                             Handle<JSObject> filter_obj) {
+  inline static Object* GetObjId(Handle<String> address __attribute__((unused))) {
+    return HEAP->undefined_value();
+  }
+  inline static MaybeObject* GetObjRetainers(int obj_id __attribute__((unused)),
+                                             Handle<JSObject> instance_filter __attribute__((unused)),
+                                             bool verbose __attribute__((unused)),
+                                             int start __attribute__((unused)),
+                                             int count __attribute__((unused)),
+                                             Handle<JSObject> filter_obj __attribute__((unused))) {
     return HEAP->undefined_value();
   }
 
-  inline static Object* GetPath(int obj_id1,
-                                int obj_id2,
-                                Handle<JSObject> instance_filter) {
+  inline static Object* GetPath(int obj_id1 __attribute__((unused)),
+                                int obj_id2 __attribute__((unused)),
+                                Handle<JSObject> instance_filter __attribute__((unused))) {
     return HEAP->undefined_value();
   }
-  inline static Object* PrintObj(int obj_id) { return HEAP->undefined_value(); }
+  inline static Object* PrintObj(int obj_id __attribute__((unused))) {
+    return HEAP->undefined_value();
+  }
 };
 
 

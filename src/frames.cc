@@ -1291,7 +1291,7 @@ static bool GcSafeCodeContains(HeapObject* code, Address addr) {
 
 
 Code* InnerPointerToCodeCache::GcSafeCastToCode(HeapObject* object,
-                                                Address inner_pointer) {
+                                                Address inner_pointer __attribute__((unused))) {
   Code* code = reinterpret_cast<Code*>(object);
   ASSERT(code != NULL && GcSafeCodeContains(code, inner_pointer));
   return code;

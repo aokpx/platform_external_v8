@@ -301,7 +301,7 @@ bool RegExpImpl::EnsureCompiledIrregexp(Handle<JSRegExp> re, bool is_ascii) {
 
 
 static bool CreateRegExpErrorObjectAndThrow(Handle<JSRegExp> re,
-                                            bool is_ascii,
+                                            bool is_ascii __attribute__((unused)),
                                             Handle<String> error_message,
                                             Isolate* isolate) {
   Factory* factory = isolate->factory();
@@ -728,7 +728,8 @@ Handle<Object> RegExpImpl::IrregexpExec(Handle<JSRegExp> jsregexp,
 //   the event that code generation is requested for an identical trace.
 
 
-void RegExpTree::AppendToText(RegExpText* text) {
+void RegExpTree::AppendToText(
+    RegExpText* text __attribute__((unused))) {
   UNREACHABLE();
 }
 
@@ -874,7 +875,7 @@ RegExpCompiler::RegExpCompiler(int capture_count, bool ignore_case, bool ascii)
 RegExpEngine::CompilationResult RegExpCompiler::Assemble(
     RegExpMacroAssembler* macro_assembler,
     RegExpNode* start,
-    int capture_count,
+    int capture_count __attribute__((unused)),
     Handle<String> pattern) {
   Heap* heap = pattern->GetHeap();
 
@@ -1189,7 +1190,8 @@ void Trace::Flush(RegExpCompiler* compiler, RegExpNode* successor) {
 }
 
 
-void NegativeSubmatchSuccess::Emit(RegExpCompiler* compiler, Trace* trace) {
+void NegativeSubmatchSuccess::Emit(RegExpCompiler* compiler,
+    Trace* trace __attribute__((unused))) {
   RegExpMacroAssembler* assembler = compiler->macro_assembler();
 
   // Omit flushing the trace. We discard the entire stack frame anyway.
@@ -1379,7 +1381,7 @@ static int GetCaseIndependentLetters(Isolate* isolate,
 }
 
 
-static inline bool EmitSimpleCharacter(Isolate* isolate,
+static inline bool EmitSimpleCharacter(Isolate* isolate __attribute__((unused)),
                                        RegExpCompiler* compiler,
                                        uc16 c,
                                        Label* on_failure,
@@ -1745,7 +1747,7 @@ int BackReferenceNode::EatsAtLeast(int still_to_find,
 
 int TextNode::EatsAtLeast(int still_to_find,
                           int recursion_depth,
-                          bool not_at_start) {
+                          bool not_at_start __attribute__((unused))) {
   int answer = Length();
   if (answer >= still_to_find) return answer;
   if (recursion_depth > RegExpCompiler::kMaxRecursion) return answer;
@@ -1931,7 +1933,7 @@ bool RegExpNode::EmitQuickCheck(RegExpCompiler* compiler,
 void TextNode::GetQuickCheckDetails(QuickCheckDetails* details,
                                     RegExpCompiler* compiler,
                                     int characters_filled_in,
-                                    bool not_at_start) {
+                                    bool not_at_start __attribute__((unused))) {
   Isolate* isolate = Isolate::Current();
   ASSERT(characters_filled_in < details->characters());
   int characters = details->characters();
@@ -2088,7 +2090,7 @@ void QuickCheckDetails::Clear() {
 }
 
 
-void QuickCheckDetails::Advance(int by, bool ascii) {
+void QuickCheckDetails::Advance(int by, bool ascii __attribute__((unused))) {
   ASSERT(by >= 0);
   if (by >= characters_) {
     Clear();
@@ -3614,7 +3616,7 @@ static const uc16 kLineTerminatorRanges[] = { 0x000A, 0x000A, 0x000D, 0x000D,
     0x2028, 0x2029 };
 static const int kLineTerminatorRangeCount = ARRAY_SIZE(kLineTerminatorRanges);
 
-RegExpNode* RegExpAtom::ToNode(RegExpCompiler* compiler,
+RegExpNode* RegExpAtom::ToNode(RegExpCompiler* compiler __attribute__((unused)),
                                RegExpNode* on_success) {
   ZoneList<TextElement>* elms = new ZoneList<TextElement>(1);
   elms->Add(TextElement::Atom(this));
@@ -3622,7 +3624,7 @@ RegExpNode* RegExpAtom::ToNode(RegExpCompiler* compiler,
 }
 
 
-RegExpNode* RegExpText::ToNode(RegExpCompiler* compiler,
+RegExpNode* RegExpText::ToNode(RegExpCompiler* compiler __attribute__((unused)),
                                RegExpNode* on_success) {
   return new TextNode(elements(), on_success);
 }
@@ -3713,7 +3715,7 @@ bool RegExpCharacterClass::is_standard() {
 }
 
 
-RegExpNode* RegExpCharacterClass::ToNode(RegExpCompiler* compiler,
+RegExpNode* RegExpCharacterClass::ToNode(RegExpCompiler* compiler __attribute__((unused)),
                                          RegExpNode* on_success) {
   return new TextNode(this, on_success);
 }
@@ -3970,7 +3972,7 @@ RegExpNode* RegExpAssertion::ToNode(RegExpCompiler* compiler,
 }
 
 
-RegExpNode* RegExpBackReference::ToNode(RegExpCompiler* compiler,
+RegExpNode* RegExpBackReference::ToNode(RegExpCompiler* compiler __attribute__((unused)),
                                         RegExpNode* on_success) {
   return new BackReferenceNode(RegExpCapture::StartRegister(index()),
                                RegExpCapture::EndRegister(index()),
@@ -3978,7 +3980,7 @@ RegExpNode* RegExpBackReference::ToNode(RegExpCompiler* compiler,
 }
 
 
-RegExpNode* RegExpEmpty::ToNode(RegExpCompiler* compiler,
+RegExpNode* RegExpEmpty::ToNode(RegExpCompiler* compiler __attribute__((unused)),
                                 RegExpNode* on_success) {
   return on_success;
 }
@@ -4158,7 +4160,8 @@ class CharacterRangeSplitter {
 };
 
 
-void CharacterRangeSplitter::Call(uc16 from, DispatchTable::Entry entry) {
+void CharacterRangeSplitter::Call(uc16 from __attribute__((unused)),
+                                  DispatchTable::Entry entry) {
   if (!entry.out_set()->Get(kInBase)) return;
   ZoneList<CharacterRange>** target = entry.out_set()->Get(kInOverlay)
     ? included_
@@ -4845,7 +4848,7 @@ void Analysis::EnsureAnalyzed(RegExpNode* that) {
 }
 
 
-void Analysis::VisitEnd(EndNode* that) {
+void Analysis::VisitEnd(EndNode* that __attribute__((unused))) {
   // nothing to do
 }
 
@@ -4972,7 +4975,7 @@ ZoneList<CharacterRange>* RegExpNode::FirstCharacterSet() {
 }
 
 
-int RegExpNode::ComputeFirstCharacterSet(int budget) {
+int RegExpNode::ComputeFirstCharacterSet(int budget __attribute__((unused))) {
   // Default behavior is to not be able to determine the first character.
   return kComputeFirstCharacterSetFail;
 }
@@ -5082,7 +5085,7 @@ int ActionNode::ComputeFirstCharacterSet(int budget) {
 }
 
 
-int BackReferenceNode::ComputeFirstCharacterSet(int budget) {
+int BackReferenceNode::ComputeFirstCharacterSet(int budget __attribute__((unused))) {
   // We don't know anything about the first character of a backreference
   // at this point.
   // The potential first characters are the first characters of the capture,
@@ -5139,7 +5142,7 @@ int TextNode::ComputeFirstCharacterSet(int budget) {
 // Dispatch table construction
 
 
-void DispatchTableConstructor::VisitEnd(EndNode* that) {
+void DispatchTableConstructor::VisitEnd(EndNode* that __attribute__((unused))) {
   AddRange(CharacterRange::Everything());
 }
 
@@ -5180,7 +5183,8 @@ void DispatchTableConstructor::VisitChoice(ChoiceNode* node) {
 }
 
 
-void DispatchTableConstructor::VisitBackReference(BackReferenceNode* that) {
+void DispatchTableConstructor::VisitBackReference(
+    BackReferenceNode* that __attribute__((unused))) {
   // TODO(160): Find the node that we refer back to and propagate its start
   // set back to here.  For now we just accept anything.
   AddRange(CharacterRange::Everything());
@@ -5252,7 +5256,7 @@ void DispatchTableConstructor::VisitAction(ActionNode* that) {
 
 RegExpEngine::CompilationResult RegExpEngine::Compile(RegExpCompileData* data,
                                                       bool ignore_case,
-                                                      bool is_multiline,
+                                                      bool is_multiline __attribute__((unused)),
                                                       Handle<String> pattern,
                                                       bool is_ascii) {
   if ((data->capture_count + 1) * 2 - 1 > RegExpMacroAssembler::kMaxRegister) {

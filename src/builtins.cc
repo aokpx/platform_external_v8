@@ -139,7 +139,7 @@ BUILTIN_LIST_C(DEF_ARG_TYPE)
 #else  // For release mode.
 
 #define BUILTIN(name)                                      \
-  static MaybeObject* Builtin_##name(name##ArgumentsType args, Isolate* isolate)
+  static MaybeObject* Builtin_##name(name##ArgumentsType args __attribute__((unused)), Isolate* isolate)
 
 #endif
 

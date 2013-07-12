@@ -322,7 +322,7 @@ void Deoptimizer::VisitAllOptimizedFunctions(
 
 
 void Deoptimizer::HandleWeakDeoptimizedCode(
-    v8::Persistent<v8::Value> obj, void* data) {
+    v8::Persistent<v8::Value> obj __attribute__((unused)), void* data) {
   DeoptimizingCodeListNode* node =
       reinterpret_cast<DeoptimizingCodeListNode*>(data);
   RemoveDeoptimizingCode(*node->code());

@@ -249,9 +249,9 @@ class StackFrame BASE_EMBEDDED {
 
   // Printing support.
   enum PrintMode { OVERVIEW, DETAILS };
-  virtual void Print(StringStream* accumulator,
-                     PrintMode mode,
-                     int index) const { }
+  virtual void Print(StringStream* accumulator __attribute__((unused)),
+                     PrintMode mode __attribute__((unused)),
+                     int index __attribute__((unused))) const { }
 
  protected:
   inline explicit StackFrame(StackFrameIterator* iterator);

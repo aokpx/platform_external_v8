@@ -2232,7 +2232,7 @@ void BinaryOpStub::GenerateTypeTransition(MacroAssembler* masm) {
 
 
 void BinaryOpStub::GenerateTypeTransitionWithSavedArgs(
-    MacroAssembler* masm) {
+    MacroAssembler* masm __attribute__((unused))) {
   UNIMPLEMENTED();
 }
 

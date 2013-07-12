@@ -160,7 +160,7 @@ class ZoneObject {
   // ZoneObjects should never be deleted individually; use
   // Zone::DeleteAll() to delete all zone objects in one go.
   void operator delete(void*, size_t) { UNREACHABLE(); }
-  void operator delete(void* pointer, Zone* zone) { UNREACHABLE(); }
+  void operator delete(void* pointer __attribute__((unused)), Zone* zone __attribute__((unused))) { UNREACHABLE(); }
 };
 
 
@@ -173,7 +173,7 @@ class ZoneListAllocationPolicy {
   static void* New(int size);
 
   // De-allocation attempts are silently ignored.
-  static void Delete(void* p) { }
+  static void Delete(void* p __attribute__((unused))) { }
 };
 
 

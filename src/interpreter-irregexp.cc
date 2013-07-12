@@ -63,7 +63,7 @@ static bool BackRefMatchesNoCase(Canonicalize* interp_canonicalize,
 }
 
 
-static bool BackRefMatchesNoCase(Canonicalize* interp_canonicalize,
+static bool BackRefMatchesNoCase(Canonicalize* interp_canonicalize __attribute__((unused)),
                                  int from,
                                  int current,
                                  int len,

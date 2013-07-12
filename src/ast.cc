@@ -833,7 +833,7 @@ void RegExpUnparser::VisitCharacterRange(CharacterRange that) {
 
 
 void* RegExpUnparser::VisitCharacterClass(RegExpCharacterClass* that,
-                                          void* data) {
+                                          void* data __attribute__((unused))) {
   if (that->is_negated())
     stream()->Add("^");
   stream()->Add("[");
@@ -846,7 +846,8 @@ void* RegExpUnparser::VisitCharacterClass(RegExpCharacterClass* that,
 }
 
 
-void* RegExpUnparser::VisitAssertion(RegExpAssertion* that, void* data) {
+void* RegExpUnparser::VisitAssertion(RegExpAssertion* that,
+                                     void* data __attribute__((unused))) {
   switch (that->type()) {
     case RegExpAssertion::START_OF_INPUT:
       stream()->Add("@^i");
@@ -871,7 +872,8 @@ void* RegExpUnparser::VisitAssertion(RegExpAssertion* that, void* data) {
 }
 
 
-void* RegExpUnparser::VisitAtom(RegExpAtom* that, void* data) {
+void* RegExpUnparser::VisitAtom(RegExpAtom* that,
+                                void* data __attribute__((unused))) {
   stream()->Add("'");
   Vector<const uc16> chardata = that->data();
   for (int i = 0; i < chardata.length(); i++) {
@@ -929,13 +931,14 @@ void* RegExpUnparser::VisitLookahead(RegExpLookahead* that, void* data) {
 
 
 void* RegExpUnparser::VisitBackReference(RegExpBackReference* that,
-                                         void* data) {
+                                         void* data __attribute__((unused))) {
   stream()->Add("(<- %i)", that->index());
   return NULL;
 }
 
 
-void* RegExpUnparser::VisitEmpty(RegExpEmpty* that, void* data) {
+void* RegExpUnparser::VisitEmpty(RegExpEmpty* that __attribute__((unused)),
+                                 void* data __attribute__((unused))) {
   stream()->Put('%');
   return NULL;
 }
@@ -992,11 +995,10 @@ CaseClause::CaseClause(Isolate* isolate,
       entry_id_(AstNode::GetNextId(isolate)) {
 }
 
-
 #define INCREASE_NODE_COUNT(NodeType) \
-  void AstConstructionVisitor::Visit##NodeType(NodeType* node) { \
+  void AstConstructionVisitor::Visit##NodeType(NodeType* node __attribute__((unused))) { \
     increase_node_count(); \
-  }
+}
 
 INCREASE_NODE_COUNT(VariableDeclaration)
 INCREASE_NODE_COUNT(FunctionDeclaration)
@@ -1031,44 +1033,51 @@ INCREASE_NODE_COUNT(CallNew)
 #undef INCREASE_NODE_COUNT
 
 
-void AstConstructionVisitor::VisitWithStatement(WithStatement* node) {
+void AstConstructionVisitor::VisitWithStatement(
+    WithStatement* node __attribute__((unused))) {
   increase_node_count();
   add_flag(kDontOptimize);
   add_flag(kDontInline);
 }
 
 
-void AstConstructionVisitor::VisitSwitchStatement(SwitchStatement* node) {
+void AstConstructionVisitor::VisitSwitchStatement(
+    SwitchStatement* node __attribute__((unused))) {
   increase_node_count();
   add_flag(kDontInline);
 }
 
 
-void AstConstructionVisitor::VisitDoWhileStatement(DoWhileStatement* node) {
+void AstConstructionVisitor::VisitDoWhileStatement(
+    DoWhileStatement* node __attribute__((unused))) {
   increase_node_count();
   add_flag(kDontSelfOptimize);
 }
 
 
-void AstConstructionVisitor::VisitWhileStatement(WhileStatement* node) {
+void AstConstructionVisitor::VisitWhileStatement(
+    WhileStatement* node __attribute__((unused))) {
   increase_node_count();
   add_flag(kDontSelfOptimize);
 }
 
 
-void AstConstructionVisitor::VisitForStatement(ForStatement* node) {
+void AstConstructionVisitor::VisitForStatement(
+    ForStatement* node __attribute__((unused))) {
   increase_node_count();
   add_flag(kDontSelfOptimize);
 }
 
 
-void AstConstructionVisitor::VisitForInStatement(ForInStatement* node) {
+void AstConstructionVisitor::VisitForInStatement(
+    ForInStatement* node __attribute__((unused))) {
   increase_node_count();
   add_flag(kDontSelfOptimize);
 }
 
 
-void AstConstructionVisitor::VisitTryCatchStatement(TryCatchStatement* node) {
+void AstConstructionVisitor::VisitTryCatchStatement(
+    TryCatchStatement* node __attribute__((unused))) {
   increase_node_count();
   add_flag(kDontOptimize);
   add_flag(kDontInline);
@@ -1076,35 +1085,38 @@ void AstConstructionVisitor::VisitTryCatchStatement(TryCatchStatement* node) {
 
 
 void AstConstructionVisitor::VisitTryFinallyStatement(
-    TryFinallyStatement* node) {
+    TryFinallyStatement* node __attribute__((unused))) {
   increase_node_count();
   add_flag(kDontOptimize);
   add_flag(kDontInline);
 }
 
 
-void AstConstructionVisitor::VisitDebuggerStatement(DebuggerStatement* node) {
+void AstConstructionVisitor::VisitDebuggerStatement(
+    DebuggerStatement* node __attribute__((unused))) {
   increase_node_count();
   add_flag(kDontOptimize);
   add_flag(kDontInline);
 }
 
 
-void AstConstructionVisitor::VisitFunctionLiteral(FunctionLiteral* node) {
+void AstConstructionVisitor::VisitFunctionLiteral(
+    FunctionLiteral* node __attribute__((unused))) {
   increase_node_count();
   add_flag(kDontInline);
 }
 
 
 void AstConstructionVisitor::VisitSharedFunctionInfoLiteral(
-    SharedFunctionInfoLiteral* node) {
+    SharedFunctionInfoLiteral* node __attribute__((unused))) {
   increase_node_count();
   add_flag(kDontOptimize);
   add_flag(kDontInline);
 }
 
 
-void AstConstructionVisitor::VisitVariableProxy(VariableProxy* node) {
+void AstConstructionVisitor::VisitVariableProxy(
+    VariableProxy* node __attribute__((unused))) {
   increase_node_count();
   // In theory, we'd have to add:
   // if(node->var()->IsLookupSlot()) { add_flag(kDontInline); }
@@ -1114,19 +1126,22 @@ void AstConstructionVisitor::VisitVariableProxy(VariableProxy* node) {
 }
 
 
-void AstConstructionVisitor::VisitRegExpLiteral(RegExpLiteral* node) {
+void AstConstructionVisitor::VisitRegExpLiteral(
+    RegExpLiteral* node __attribute__((unused))) {
   increase_node_count();
   add_flag(kDontInline);  // TODO(1322): Allow materialized literals.
 }
 
 
-void AstConstructionVisitor::VisitArrayLiteral(ArrayLiteral* node) {
+void AstConstructionVisitor::VisitArrayLiteral(
+    ArrayLiteral* node __attribute__((unused))) {
   increase_node_count();
   add_flag(kDontInline);  // TODO(1322): Allow materialized literals.
 }
 
 
-void AstConstructionVisitor::VisitCallRuntime(CallRuntime* node) {
+void AstConstructionVisitor::VisitCallRuntime(
+    CallRuntime* node __attribute__((unused))) {
   increase_node_count();
   if (node->is_jsruntime()) {
     // Don't try to inline JS runtime calls because we don't (currently) even

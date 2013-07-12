@@ -1286,7 +1286,7 @@ Handle<Code> StubCompiler::CompileCallDebugPrepareStepIn(Code::Flags flags) {
 
 
 Handle<Code> StubCompiler::GetCodeWithFlags(Code::Flags flags,
-                                            const char* name) {
+                                            const char* name __attribute__((unused))) {
   // Create code object in the heap.
   CodeDesc desc;
   masm_.GetCode(&desc);

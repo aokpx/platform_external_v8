@@ -155,7 +155,8 @@ static void FillDigits32(uint32_t number, Vector<char> buffer, int* length) {
 }
 
 
-static void FillDigits64FixedLength(uint64_t number, int requested_length,
+static void FillDigits64FixedLength(
+  uint64_t number, int requested_length __attribute__((unused)),
                                     Vector<char> buffer, int* length) {
   const uint32_t kTen7 = 10000000;
   // For efficiency cut the number into 3 uint32_t parts, and print those.

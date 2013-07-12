@@ -148,7 +148,8 @@ void i::FatalProcessOutOfMemory(const char* location) {
 
 // When V8 cannot allocated memory FatalProcessOutOfMemory is called.
 // The default fatal error handler is called and execution is stopped.
-void i::V8::FatalProcessOutOfMemory(const char* location, bool take_snapshot) {
+void i::V8::FatalProcessOutOfMemory(const char* location,
+                                    bool take_snapshot __attribute__((unused))) {
   i::HeapStats heap_stats;
   int start_marker;
   heap_stats.start_marker = &start_marker;
@@ -391,7 +392,7 @@ int V8::GetCompressedStartupDataCount() {
 }
 
 
-void V8::GetCompressedStartupData(StartupData* compressed_data) {
+void V8::GetCompressedStartupData(StartupData* compressed_data __attribute__((unused))) {
 #ifdef COMPRESS_STARTUP_DATA_BZ2
   compressed_data[kSnapshot].data =
       reinterpret_cast<const char*>(i::Snapshot::data());
@@ -422,7 +423,7 @@ void V8::GetCompressedStartupData(StartupData* compressed_data) {
 }
 
 
-void V8::SetDecompressedStartupData(StartupData* decompressed_data) {
+void V8::SetDecompressedStartupData(StartupData* decompressed_data __attribute__((unused))) {
 #ifdef COMPRESS_STARTUP_DATA_BZ2
   ASSERT_EQ(i::Snapshot::raw_size(), decompressed_data[kSnapshot].raw_size);
   i::Snapshot::set_raw_data(

@@ -161,7 +161,7 @@ void MemoryAllocator::UnprotectChunkFromPage(Page* page) {
 // PagedSpace
 Page* Page::Initialize(Heap* heap,
                        MemoryChunk* chunk,
-                       Executability executable,
+                       Executability executable __attribute__((unused)),
                        PagedSpace* owner) {
   Page* page = reinterpret_cast<Page*>(chunk);
   ASSERT(chunk->size() == static_cast<size_t>(kPageSize));

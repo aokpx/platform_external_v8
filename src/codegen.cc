@@ -58,7 +58,7 @@ Comment::~Comment() {
 #undef __
 
 
-void CodeGenerator::MakeCodePrologue(CompilationInfo* info) {
+void CodeGenerator::MakeCodePrologue(CompilationInfo* info __attribute__((unused))) {
 #ifdef DEBUG
   bool print_source = false;
   bool print_ast = false;
@@ -112,7 +112,8 @@ Handle<Code> CodeGenerator::MakeCodeEpilogue(MacroAssembler* masm,
 }
 
 
-void CodeGenerator::PrintCode(Handle<Code> code, CompilationInfo* info) {
+void CodeGenerator::PrintCode(Handle<Code> code __attribute__((unused)),
+                              CompilationInfo* info __attribute__((unused))) {
 #ifdef ENABLE_DISASSEMBLER
   bool print_code = Isolate::Current()->bootstrapper()->IsActive()
       ? FLAG_print_builtin_code

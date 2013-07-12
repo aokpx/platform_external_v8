@@ -66,7 +66,7 @@ inline bool StackHandler::includes(Address address) const {
 }
 
 
-inline void StackHandler::Iterate(ObjectVisitor* v, Code* holder) const {
+inline void StackHandler::Iterate(ObjectVisitor* v, Code* holder __attribute__((unused))) const {
   v->VisitPointer(context_address());
   v->VisitPointer(code_address());
 }

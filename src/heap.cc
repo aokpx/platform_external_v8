@@ -481,7 +481,7 @@ void Heap::CollectAllAvailableGarbage(const char* gc_reason) {
 }
 
 
-bool Heap::CollectGarbage(AllocationSpace space,
+bool Heap::CollectGarbage(AllocationSpace space __attribute__((unused)),
                           GarbageCollector collector,
                           const char* gc_reason,
                           const char* collector_reason) {
@@ -1443,7 +1443,7 @@ class NewSpaceScavenger : public StaticNewSpaceVisitor<NewSpaceScavenger> {
 };
 
 
-Address Heap::DoScavenge(ObjectVisitor* scavenge_visitor,
+Address Heap::DoScavenge(ObjectVisitor* scavenge_visitor __attribute__((unused)),
                          Address new_space_front) {
   do {
     SemiSpace::AssertValidRange(new_space_front, new_space_.top());

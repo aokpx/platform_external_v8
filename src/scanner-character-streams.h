@@ -105,14 +105,14 @@ class ExternalTwoByteStringUtf16CharacterStream: public Utf16CharacterStream {
                                             int end_position);
   virtual ~ExternalTwoByteStringUtf16CharacterStream();
 
-  virtual void PushBack(uc32 character) {
+  virtual void PushBack(uc32 character __attribute__((unused))) {
     ASSERT(buffer_cursor_ > raw_data_);
     buffer_cursor_--;
     pos_--;
   }
 
  protected:
-  virtual unsigned SlowSeekForward(unsigned delta) {
+  virtual unsigned SlowSeekForward(unsigned delta __attribute__((unused))) {
     // Fast case always handles seeking.
     return 0;
   }

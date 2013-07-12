@@ -339,9 +339,14 @@ void Disassembler::Decode(FILE* f, Code* code) {
 
 #else  // ENABLE_DISASSEMBLER
 
-void Disassembler::Dump(FILE* f, byte* begin, byte* end) {}
-int Disassembler::Decode(FILE* f, byte* begin, byte* end) { return 0; }
-void Disassembler::Decode(FILE* f, Code* code) {}
+void Disassembler::Dump(FILE* f __attribute__((unused)),
+                        byte* begin __attribute__((unused)),
+                        byte* end __attribute__((unused))) {}
+int Disassembler::Decode(FILE* f __attribute__((unused)),
+                         byte* begin __attribute__((unused)),
+                         byte* end __attribute__((unused))) { return 0; }
+void Disassembler::Decode(FILE* f __attribute__((unused)),
+                          Code* code __attribute__((unused))) {}
 
 #endif  // ENABLE_DISASSEMBLER
 

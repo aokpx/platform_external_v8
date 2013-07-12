@@ -62,7 +62,7 @@ class HeapStringAllocator: public StringAllocator {
 class NoAllocationStringAllocator: public StringAllocator {
  public:
   NoAllocationStringAllocator(char* memory, unsigned size);
-  char* allocate(unsigned bytes) { return space_; }
+  char* allocate(unsigned bytes __attribute__((unused))) { return space_; }
   char* grow(unsigned* bytes);
  private:
   unsigned size_;

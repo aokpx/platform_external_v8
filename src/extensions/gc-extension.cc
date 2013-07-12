@@ -34,12 +34,13 @@ const char* const GCExtension::kSource = "native function gc();";
 
 
 v8::Handle<v8::FunctionTemplate> GCExtension::GetNativeFunction(
-    v8::Handle<v8::String> str) {
+    v8::Handle<v8::String> str __attribute__((unused))) {
   return v8::FunctionTemplate::New(GCExtension::GC);
 }
 
 
-v8::Handle<v8::Value> GCExtension::GC(const v8::Arguments& args) {
+v8::Handle<v8::Value> GCExtension::GC(
+    const v8::Arguments& args __attribute__((unused))) {
   HEAP->CollectAllGarbage(Heap::kNoGCFlags, "gc extension");
   return v8::Undefined();
 }

@@ -143,7 +143,7 @@ const int PowersOfTenCache::kMaxDecimalExponent = 340;
 
 void PowersOfTenCache::GetCachedPowerForBinaryExponentRange(
     int min_exponent,
-    int max_exponent,
+    int max_exponent __attribute__((unused)),
     DiyFp* power,
     int* decimal_exponent) {
   int kQ = DiyFp::kSignificandSize;

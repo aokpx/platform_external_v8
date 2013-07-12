@@ -4155,7 +4155,7 @@ static Handle<Object> GetCharAt(Handle<String> string, uint32_t index) {
 }
 
 
-MaybeObject* Runtime::GetElementOrCharAt(Isolate* isolate,
+MaybeObject* Runtime::GetElementOrCharAt(Isolate* isolate __attribute__((unused)),
                                          Handle<Object> object,
                                          uint32_t index) {
   // Handle [] indexing on Strings
@@ -5689,7 +5689,7 @@ static MaybeObject* SlowQuoteJsonString(Isolate* isolate,
 
 template <typename SinkChar, typename SourceChar>
 static inline SinkChar* WriteQuoteJsonString(
-    Isolate* isolate,
+    Isolate* isolate __attribute__((unused)),
     SinkChar* write_cursor,
     Vector<const SourceChar> characters) {
   // SinkChar is only char if SourceChar is guaranteed to be char.
@@ -9372,7 +9372,7 @@ class ArrayConcatVisitor {
 
  private:
   // Convert storage to dictionary mode.
-  void SetDictionaryMode(uint32_t index) {
+  void SetDictionaryMode(uint32_t index __attribute__((unused))) {
     ASSERT(fast_elements_);
     Handle<FixedArray> current_storage(*storage_);
     Handle<SeededNumberDictionary> slow_storage(

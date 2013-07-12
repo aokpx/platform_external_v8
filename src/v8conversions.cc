@@ -52,7 +52,7 @@ class StringInputBufferIterator {
   int operator*() const;
   void operator++();
   bool operator==(EndMarker const&) const { return end_; }
-  bool operator!=(EndMarker const& m) const { return !end_; }
+  bool operator!=(EndMarker const& m __attribute__((unused))) const { return !end_; }
 
  private:
   StringInputBuffer* const buffer_;

@@ -114,7 +114,7 @@ static const int32_t kBranchBeforeInterrupt =  0x5a000004;
 
 void Deoptimizer::PatchStackCheckCodeAt(Code* unoptimized_code,
                                         Address pc_after,
-                                        Code* check_code,
+                                        Code* check_code __attribute__((unused)),
                                         Code* replacement_code) {
   const int kInstrSize = Assembler::kInstrSize;
   // The call of the stack guard check has the following form:
@@ -163,7 +163,7 @@ void Deoptimizer::PatchStackCheckCodeAt(Code* unoptimized_code,
 void Deoptimizer::RevertStackCheckCodeAt(Code* unoptimized_code,
                                          Address pc_after,
                                          Code* check_code,
-                                         Code* replacement_code) {
+                                         Code* replacement_code __attribute__((unused))) {
   const int kInstrSize = Assembler::kInstrSize;
   ASSERT(Memory::int32_at(pc_after - kInstrSize) == kBlxIp);
   ASSERT(Assembler::IsLdrPcImmediateOffset(

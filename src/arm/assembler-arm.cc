@@ -154,7 +154,8 @@ void RelocInfo::PatchCode(byte* instructions, int instruction_count) {
 
 // Patch the code at the current PC with a call to the target address.
 // Additional guard instructions can be added if required.
-void RelocInfo::PatchCodeWithCall(Address target, int guard_bytes) {
+void RelocInfo::PatchCodeWithCall(Address target __attribute__((unused)),
+                                  int guard_bytes __attribute__((unused))) {
   // Patch the code at the current address with a call to the target.
   UNIMPLEMENTED();
 }
@@ -986,7 +987,8 @@ void Assembler::addrmod5(Instr instr, CRegister crd, const MemOperand& x) {
 }
 
 
-int Assembler::branch_offset(Label* L, bool jump_elimination_allowed) {
+int Assembler::branch_offset(Label* L,
+                             bool jump_elimination_allowed __attribute__((unused))) {
   int target_pos;
   if (L->is_bound()) {
     target_pos = L->pos();
@@ -1440,7 +1442,7 @@ void Assembler::ldrsh(Register dst, const MemOperand& src, Condition cond) {
 }
 
 
-void Assembler::ldrd(Register dst1, Register dst2,
+void Assembler::ldrd(Register dst1, Register dst2 __attribute__((unused)),
                      const MemOperand& src, Condition cond) {
   ASSERT(CpuFeatures::IsEnabled(ARMv7));
   ASSERT(src.rm().is(no_reg));
@@ -1451,7 +1453,7 @@ void Assembler::ldrd(Register dst1, Register dst2,
 }
 
 
-void Assembler::strd(Register src1, Register src2,
+void Assembler::strd(Register src1, Register src2 __attribute__((unused)),
                      const MemOperand& dst, Condition cond) {
   ASSERT(dst.rm().is(no_reg));
   ASSERT(!src1.is(lr));  // r14.
@@ -1494,7 +1496,9 @@ void Assembler::stm(BlockAddrMode am,
 // Exception-generating instructions and debugging support.
 // Stops with a non-negative code less than kNumOfWatchedStops support
 // enabling/disabling and a counter feature. See simulator-arm.h .
-void Assembler::stop(const char* msg, Condition cond, int32_t code) {
+void Assembler::stop(const char* msg __attribute__((unused)),
+                     Condition cond,
+                     int32_t code __attribute__((unused))) {
 #ifndef __arm__
   ASSERT(code >= kDefaultStopCode);
   {
@@ -2346,7 +2350,7 @@ void Assembler::vcmp(const DwVfpRegister src1,
 
 
 void Assembler::vcmp(const DwVfpRegister src1,
-                     const double src2,
+                     const double src2 __attribute__((unused)),
                      const Condition cond) {
   // vcmp(Dd, Dm) double precision floating point comparison.
   // Instruction details available in ARM DDI 0406A, A8-570.

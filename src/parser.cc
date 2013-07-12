@@ -746,7 +746,7 @@ FunctionLiteral* Parser::ParseLazy(CompilationInfo* info,
 }
 
 
-Handle<String> Parser::GetSymbol(bool* ok) {
+Handle<String> Parser::GetSymbol(bool* ok __attribute__((unused))) {
   int symbol_id = -1;
   if (pre_data() != NULL) {
     symbol_id = pre_data()->GetSymbolIdentifier();
@@ -4300,8 +4300,10 @@ class SingletonLogger : public ParserRecorder {
   };
 
   // Logs a symbol creation of a literal or identifier.
-  virtual void LogAsciiSymbol(int start, Vector<const char> literal) { }
-  virtual void LogUtf16Symbol(int start, Vector<const uc16> literal) { }
+  virtual void LogAsciiSymbol(int start __attribute__((unused)),
+                              Vector<const char> literal __attribute__((unused))) { }
+  virtual void LogUtf16Symbol(int start __attribute__((unused)),
+                              Vector<const uc16> literal __attribute__((unused))) { }
 
   // Logs an error message and marks the log as containing an error.
   // Further logging will be ignored, and ExtractData will return a vector
@@ -4923,7 +4925,8 @@ bool Parser::TargetStackContainsLabel(Handle<String> label) {
 }
 
 
-BreakableStatement* Parser::LookupBreakTarget(Handle<String> label, bool* ok) {
+BreakableStatement* Parser::LookupBreakTarget(Handle<String> label,
+                                              bool* ok __attribute__((unused))) {
   bool anonymous = label.is_null();
   for (Target* t = target_stack_; t != NULL; t = t->previous()) {
     BreakableStatement* stat = t->node()->AsBreakableStatement();
@@ -4939,7 +4942,7 @@ BreakableStatement* Parser::LookupBreakTarget(Handle<String> label, bool* ok) {
 
 
 IterationStatement* Parser::LookupContinueTarget(Handle<String> label,
-                                                 bool* ok) {
+                                                 bool* ok __attribute__((unused))) {
   bool anonymous = label.is_null();
   for (Target* t = target_stack_; t != NULL; t = t->previous()) {
     IterationStatement* stat = t->node()->AsIterationStatement();

@@ -850,7 +850,7 @@ template<typename ElementType>
 class EmbeddedContainer<ElementType, 0> {
  public:
   int length() { return 0; }
-  ElementType& operator[](int i) {
+  ElementType& operator[](int i __attribute__((unused))) {
     UNREACHABLE();
     static ElementType t = 0;
     return t;

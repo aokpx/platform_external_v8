@@ -402,7 +402,8 @@ int Decoder::FormatVFPRegister(Instruction* instr, const char* format) {
 }
 
 
-int Decoder::FormatVFPinstruction(Instruction* instr, const char* format) {
+int Decoder::FormatVFPinstruction(Instruction* instr __attribute__((unused)),
+                                  const char* format) {
     Print(format);
     return 0;
 }
@@ -1457,19 +1458,19 @@ const char* NameConverter::NameOfCPURegister(int reg) const {
 }
 
 
-const char* NameConverter::NameOfByteCPURegister(int reg) const {
+const char* NameConverter::NameOfByteCPURegister(int reg __attribute__((unused))) const {
   UNREACHABLE();  // ARM does not have the concept of a byte register
   return "nobytereg";
 }
 
 
-const char* NameConverter::NameOfXMMRegister(int reg) const {
+const char* NameConverter::NameOfXMMRegister(int reg __attribute__((unused))) const {
   UNREACHABLE();  // ARM does not have any XMM registers
   return "noxmmreg";
 }
 
 
-const char* NameConverter::NameInCode(byte* addr) const {
+const char* NameConverter::NameInCode(byte* addr __attribute__((unused))) const {
   // The default name converter is called for unknown code. So we will not try
   // to access any memory.
   return "";

@@ -97,7 +97,7 @@ PropertyDetails PropertyDetails::AsDeleted() {
 // Getter that returns a tagged Smi and setter that writes a tagged Smi.
 #define ACCESSORS_TO_SMI(holder, name, offset)                          \
   Smi* holder::name() { return Smi::cast(READ_FIELD(this, offset)); }   \
-  void holder::set_##name(Smi* value, WriteBarrierMode mode) {          \
+  void holder::set_##name(Smi* value, WriteBarrierMode mode __attribute__((unused))) {          \
     WRITE_FIELD(this, offset, value);                                   \
   }
 
@@ -1424,7 +1424,7 @@ Object* JSGlobalPropertyCell::value() {
 }
 
 
-void JSGlobalPropertyCell::set_value(Object* val, WriteBarrierMode ignored) {
+void JSGlobalPropertyCell::set_value(Object* val, WriteBarrierMode ignored __attribute__((unused))) {
   // The write barrier is not used for global property cells.
   ASSERT(!val->IsJSGlobalPropertyCell());
   WRITE_FIELD(this, kValueOffset, val);
@@ -2329,12 +2329,12 @@ void SeqTwoByteString::SeqTwoByteStringSet(int index, uint16_t value) {
 }
 
 
-int SeqTwoByteString::SeqTwoByteStringSize(InstanceType instance_type) {
+int SeqTwoByteString::SeqTwoByteStringSize(InstanceType instance_type __attribute__((unused))) {
   return SizeFor(length());
 }
 
 
-int SeqAsciiString::SeqAsciiStringSize(InstanceType instance_type) {
+int SeqAsciiString::SeqAsciiStringSize(InstanceType instance_type __attribute__((unused))) {
   return SizeFor(length());
 }
 
@@ -2556,7 +2556,7 @@ void* ExternalArray::external_pointer() {
 }
 
 
-void ExternalArray::set_external_pointer(void* value, WriteBarrierMode mode) {
+void ExternalArray::set_external_pointer(void* value, WriteBarrierMode mode __attribute__((unused))) {
   intptr_t ptr = reinterpret_cast<intptr_t>(value);
   WRITE_INTPTR_FIELD(this, kExternalPointerOffset, ptr);
 }
@@ -4652,7 +4652,7 @@ uint32_t UnseededNumberDictionaryShape::Hash(uint32_t key) {
 }
 
 
-uint32_t UnseededNumberDictionaryShape::HashForObject(uint32_t key,
+uint32_t UnseededNumberDictionaryShape::HashForObject(uint32_t key __attribute__((unused)),
                                                       Object* other) {
   ASSERT(other->IsNumber());
   return ComputeIntegerHash(static_cast<uint32_t>(other->Number()), 0);
@@ -4662,7 +4662,7 @@ uint32_t SeededNumberDictionaryShape::SeededHash(uint32_t key, uint32_t seed) {
   return ComputeIntegerHash(key, seed);
 }
 
-uint32_t SeededNumberDictionaryShape::SeededHashForObject(uint32_t key,
+uint32_t SeededNumberDictionaryShape::SeededHashForObject(uint32_t key __attribute__((unused)),
                                                           uint32_t seed,
                                                           Object* other) {
   ASSERT(other->IsNumber());
@@ -4687,7 +4687,7 @@ uint32_t StringDictionaryShape::Hash(String* key) {
 }
 
 
-uint32_t StringDictionaryShape::HashForObject(String* key, Object* other) {
+uint32_t StringDictionaryShape::HashForObject(String* key __attribute__((unused)), Object* other) {
   return String::cast(other)->Hash();
 }
 
@@ -4711,7 +4711,7 @@ uint32_t ObjectHashTableShape<entrysize>::Hash(Object* key) {
 
 
 template <int entrysize>
-uint32_t ObjectHashTableShape<entrysize>::HashForObject(Object* key,
+uint32_t ObjectHashTableShape<entrysize>::HashForObject(Object* key __attribute__((unused)),
                                                         Object* other) {
   MaybeObject* maybe_hash = other->GetHash(OMIT_CREATION);
   return Smi::cast(maybe_hash->ToObjectChecked())->value();
@@ -4853,7 +4853,7 @@ Relocatable::~Relocatable() {
 }
 
 
-int JSObject::BodyDescriptor::SizeOf(Map* map, HeapObject* object) {
+int JSObject::BodyDescriptor::SizeOf(Map* map, HeapObject* object __attribute__((unused))) {
   return map->instance_size();
 }
 

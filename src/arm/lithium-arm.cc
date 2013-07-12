@@ -820,12 +820,14 @@ LInstruction* LChunkBuilder::DoBlockEntry(HBlockEntry* instr) {
 }
 
 
-LInstruction* LChunkBuilder::DoSoftDeoptimize(HSoftDeoptimize* instr) {
+LInstruction* LChunkBuilder::DoSoftDeoptimize(
+    HSoftDeoptimize* instr __attribute__((unused))) {
   return AssignEnvironment(new(zone()) LDeoptimize);
 }
 
 
-LInstruction* LChunkBuilder::DoDeoptimize(HDeoptimize* instr) {
+LInstruction* LChunkBuilder::DoDeoptimize(
+    HDeoptimize* instr __attribute__((unused))) {
   return AssignEnvironment(new(zone()) LDeoptimize);
 }
 
@@ -1076,7 +1078,8 @@ LInstruction* LChunkBuilder::DoArgumentsLength(HArgumentsLength* instr) {
 }
 
 
-LInstruction* LChunkBuilder::DoArgumentsElements(HArgumentsElements* elems) {
+LInstruction* LChunkBuilder::DoArgumentsElements(
+    HArgumentsElements* elems __attribute__((unused))) {
   return DefineAsRegister(new(zone()) LArgumentsElements);
 }
 
@@ -1624,7 +1627,8 @@ LInstruction* LChunkBuilder::DoBoundsCheck(HBoundsCheck* instr) {
 }
 
 
-LInstruction* LChunkBuilder::DoAbnormalExit(HAbnormalExit* instr) {
+LInstruction* LChunkBuilder::DoAbnormalExit(
+    HAbnormalExit* instr __attribute__((unused))) {
   // The control instruction marking the end of a block that completed
   // abruptly (e.g., threw an exception).  There is nothing specific to do.
   return NULL;
@@ -1637,12 +1641,14 @@ LInstruction* LChunkBuilder::DoThrow(HThrow* instr) {
 }
 
 
-LInstruction* LChunkBuilder::DoUseConst(HUseConst* instr) {
+LInstruction* LChunkBuilder::DoUseConst(
+    HUseConst* instr __attribute__((unused))) {
   return NULL;
 }
 
 
-LInstruction* LChunkBuilder::DoForceRepresentation(HForceRepresentation* bad) {
+LInstruction* LChunkBuilder::DoForceRepresentation(
+    HForceRepresentation* bad __attribute__((unused))) {
   // All HForceRepresentation instructions should be eliminated in the
   // representation change phase of Hydrogen.
   UNREACHABLE();
@@ -1733,7 +1739,8 @@ LInstruction* LChunkBuilder::DoCheckInstanceType(HCheckInstanceType* instr) {
 }
 
 
-LInstruction* LChunkBuilder::DoCheckPrototypeMaps(HCheckPrototypeMaps* instr) {
+LInstruction* LChunkBuilder::DoCheckPrototypeMaps(
+    HCheckPrototypeMaps* instr __attribute__((unused))) {
   LOperand* temp1 = TempRegister();
   LOperand* temp2 = TempRegister();
   LInstruction* result = new(zone()) LCheckPrototypeMaps(temp1, temp2);
@@ -2110,7 +2117,8 @@ LInstruction* LChunkBuilder::DoStringLength(HStringLength* instr) {
 }
 
 
-LInstruction* LChunkBuilder::DoAllocateObject(HAllocateObject* instr) {
+LInstruction* LChunkBuilder::DoAllocateObject(
+    HAllocateObject* instr __attribute__((unused))) {
   LAllocateObject* result = new LAllocateObject(TempRegister(), TempRegister());
   return AssignPointerMap(DefineAsRegister(result));
 }
@@ -2162,7 +2170,8 @@ LInstruction* LChunkBuilder::DoParameter(HParameter* instr) {
 }
 
 
-LInstruction* LChunkBuilder::DoUnknownOSRValue(HUnknownOSRValue* instr) {
+LInstruction* LChunkBuilder::DoUnknownOSRValue(
+    HUnknownOSRValue* instr __attribute__((unused))) {
   int spill_index = chunk()->GetNextSpillIndex(false);  // Not double-width.
   if (spill_index > LUnallocated::kMaxFixedIndex) {
     Abort("Too many spill slots needed for OSR");
@@ -2178,7 +2187,8 @@ LInstruction* LChunkBuilder::DoCallStub(HCallStub* instr) {
 }
 
 
-LInstruction* LChunkBuilder::DoArgumentsObject(HArgumentsObject* instr) {
+LInstruction* LChunkBuilder::DoArgumentsObject(
+    HArgumentsObject* instr __attribute__((unused))) {
   // There are no real uses of the arguments object.
   // arguments.length and element access are supported directly on
   // stack arguments, and any real arguments object use causes a bailout.
@@ -2216,7 +2226,7 @@ LInstruction* LChunkBuilder::DoTypeofIsAndBranch(HTypeofIsAndBranch* instr) {
 
 
 LInstruction* LChunkBuilder::DoIsConstructCallAndBranch(
-    HIsConstructCallAndBranch* instr) {
+    HIsConstructCallAndBranch* instr __attribute__((unused))) {
   return new(zone()) LIsConstructCallAndBranch(TempRegister());
 }
 
@@ -2280,7 +2290,8 @@ LInstruction* LChunkBuilder::DoEnterInlined(HEnterInlined* instr) {
 }
 
 
-LInstruction* LChunkBuilder::DoLeaveInlined(HLeaveInlined* instr) {
+LInstruction* LChunkBuilder::DoLeaveInlined(
+    HLeaveInlined* instr __attribute__((unused))) {
   HEnvironment* outer = current_block_->last_environment()->
       DiscardInlined(false);
   current_block_->UpdateEnvironment(outer);
